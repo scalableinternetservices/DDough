@@ -30,7 +30,7 @@ class DoughnutsController < ApplicationController
 
   private
     def doughnut_params
-      params.require(:doughnut).permit(:name, :price, :description)
+      params.require(:doughnut).permit(:name, :price, :quantity, :description)
     end
   
 end
