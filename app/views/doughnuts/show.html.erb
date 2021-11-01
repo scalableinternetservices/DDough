@@ -1,7 +1,7 @@
 <h1><%= @doughnut.name %></h1>
-<p><%= @doughnut.price %></p>
-<p><%= @doughnut.quantity %></p>
-<p><%= @doughnut.description %></p>
+<p> Price: <%= @doughnut.price %></p>
+<p> Quantity: <%= @doughnut.quantity %></p>
+<p> Description: <%= @doughnut.description %></p>
 
 <p><%= link_to "Delete Doughnut", doughnut_path(@doughnut),
                 method: :delete,

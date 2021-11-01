@@ -25,7 +25,7 @@ class DoughnutsController < ApplicationController
     @doughnut = Doughnut.find(params[:id])
     @doughnut.destroy
 
-    redirect_to doughnut_path
+    redirect_to root_path
   end
 
   private
