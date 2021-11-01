@@ -3,6 +3,9 @@
 <p> Quantity: <%= @doughnut.quantity %></p>
 <p> Description: <%= @doughnut.description %></p>
 
+<p><%= link_to "Edit", edit_doughnut_path(@doughnut) %></p>
 <p><%= link_to "Delete Doughnut", doughnut_path(@doughnut),
                 method: :delete,
                 data: { confirm: "Are you sure?" } %></p>
+
+        

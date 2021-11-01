@@ -21,6 +21,20 @@ class DoughnutsController < ApplicationController
     end
   end
 
+  def edit
+    @doughnut = Doughnut.find(params[:id])
+  end
+
+  def update
+    @doughnut = Doughnut.find(params[:id])
+
+    if @doughnut.update(doughnut_params)
+      redirect_to @doughnut
+    else
+      render :edit
+    end
+  end
+
   def destroy
     @doughnut = Doughnut.find(params[:id])
     @doughnut.destroy
