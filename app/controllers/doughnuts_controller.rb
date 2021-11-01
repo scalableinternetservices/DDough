@@ -21,6 +21,13 @@ class DoughnutsController < ApplicationController
     end
   end
 
+  def destroy
+    @doughnut = Doughnut.find(params[:id])
+    @doughnut.destroy
+
+    redirect_to doughnut_path
+  end
+
   private
     def doughnut_params
       params.require(:doughnut).permit(:name, :price, :description)
