@@ -2,8 +2,8 @@
 
 <ul>
   <% @doughnuts.each do |doughnut| %>
-      <p>Name: <%= doughnut.name %></p>
-      <p>Price: <%= doughnut.price %></p>
-      <p>Description: <%= doughnut.description %></p>
+    <%= link_to doughnut.name, doughnut %>
   <% end %>
 </ul>
+
+<%= link_to "New Doughnut", new_doughnut_path %>
