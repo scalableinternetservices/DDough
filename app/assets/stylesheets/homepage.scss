@@ -1,0 +1,38 @@
+// Place all the styles related to the Homepage controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+$color-primary: #ffffff;
+$color-secondary: #82c9b5;
+$color-secondary-alt: #e19caf;
+$color-text-primary: #412031;
+$color-text-secondary: #ffffff;
+
+.homepage-container {
+	width: 100%;
+	min-height: 100vh;
+	background-color: $color-primary;
+}
+
+@mixin navbar($bgColor: $color-secondary) {
+	width: 100%;
+	height: 100px;
+	position: sticky;
+	color: $color-text-secondary;
+	background-color: $bgColor;	
+}
+
+.navbar-container-buyer {
+	@include navbar;
+}
+
+.navbar-container-vendor {
+	@include navbar($bgColor: $color-secondary-alt);
+}
+
+.navbar-logo {
+	width: 80px;
+    margin-left: 36px;
+    position: relative;
+    top: 24px;
+}

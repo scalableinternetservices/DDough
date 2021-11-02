@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+body, html {
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
