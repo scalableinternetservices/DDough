@@ -1,0 +1,9 @@
+<h1>Doughnuts</h1>
+
+<ul>
+  <% @doughnuts.each do |doughnut| %>
+    <li><%= link_to doughnut.name, doughnut %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Add New Doughnut", new_doughnut_path %>
