@@ -1,8 +1,8 @@
 class LoginController < ApplicationController
   skip_before_action :verify_authenticity_token, :authorized, only: [:create]
-  before_action :find_user
 
   def create
+    @user = User.find_by(username: user_login_params[:username])
     #User#authenticate comes from BCrypt
     if @user && @user.authenticate(user_login_params[:password])
       @token = encode_token({ user_id: @user.id })
@@ -11,12 +11,6 @@ class LoginController < ApplicationController
     else
       render json: { message: 'Invalid username or password' }, status: :unauthorized
     end
-  end
-
-  def find_user
-    @user = User.find_by_username!(user_login_params[:username])
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'User not found' }, status: :not_found
   end
 
   private
