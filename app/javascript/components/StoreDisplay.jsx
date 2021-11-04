@@ -7,10 +7,10 @@ export default(props) => (
 		<div className="store-display-wrapper">
 			{props.itemList.map((item, idx) => (
 				<ItemCard 
-					key=`item${item.uid}`
+					key={item.name}
 					idx={idx} 
 					name={item.name} 
-					price=`\$${item.price}` 
+					price={`$${item.price}`} 
 					img={item.img} 
 					description={item.description}
 					quantity={item.quantity}

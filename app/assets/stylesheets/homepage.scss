@@ -38,14 +38,30 @@ $color-text-secondary: #ffffff;
 }
 
 .store-display-container {
-	.store-display-wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 48px 60px;
 
+	.store-display-wrapper {
+		width:  80%;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		row-gap: 30px;
 	}
 }
 
 .item-card-container {
-	.item-card-img {
+	width: 120px;
+	height: 410px;
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	padding: 30px 36px;
+	box-shadow: 0 8px 8px rgba(0, 0, 0, .1);
 
+	.item-card-img {
+		border-radius: 20px;
 	}
 
 	.item-card-name {
