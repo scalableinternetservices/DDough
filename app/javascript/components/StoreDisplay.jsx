@@ -1,7 +1,21 @@
 import React from "react";
-import Placeholder1 from "images/item_placeholder_1.JPG";
-import Placeholder2 from "images/item_placeholder_2.JPG";
+
+import ItemCard from "./ItemCard";
 
 export default(props) => (
-	null;
+	<div className="store-display-container">
+		<div className="store-display-wrapper">
+			{props.itemList.map((item, idx) => (
+				<ItemCard 
+					key=`item${item.uid}`
+					idx={idx} 
+					name={item.name} 
+					price=`\$${item.price}` 
+					img={item.img} 
+					description={item.description}
+					quantity={item.quantity}
+				/>
+			))}
+		</div>
+	</div>
 );
