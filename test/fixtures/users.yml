@@ -2,10 +2,10 @@
 
 one:
   username: MyString
-  password: MyString
+  password_digest: MyString
   role: 1
 
 two:
   username: MyString
-  password: MyString
+  password_digest: MyString
   role: 1
