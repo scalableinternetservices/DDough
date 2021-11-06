@@ -1,4 +1,4 @@
-class LoginController < ApplicationController
+class Api::LoginController < ApplicationController
   skip_before_action :verify_authenticity_token, :authorized, only: [:create]
 
   def create
