@@ -1,5 +1,4 @@
 class Api::OrdersController < ApplicationController
-  skip_before_action :verify_authenticity_token, :authorized
   def index
     orders = Order.all
     render json: orders
