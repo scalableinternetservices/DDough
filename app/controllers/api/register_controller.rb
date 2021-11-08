@@ -1,4 +1,4 @@
-class RegisterController < ApplicationController
+class Api::RegisterController < ApplicationController
   skip_before_action :verify_authenticity_token, :authorized, only: [:create]
 
   def create
