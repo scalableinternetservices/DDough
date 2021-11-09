@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  skip_before_action :verify_authenticity_token
   before_action :authorized
   SECRET_KEY = Rails.application.secrets.secret_key_base. to_s
 

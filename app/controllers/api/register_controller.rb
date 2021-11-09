@@ -1,5 +1,5 @@
 class Api::RegisterController < ApplicationController
-  skip_before_action :verify_authenticity_token, :authorized, only: [:create]
+  skip_before_action :authorized, only: [:create]
 
   def create
     if User.exists?(username: user_params[:username])

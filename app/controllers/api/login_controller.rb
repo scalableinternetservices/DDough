@@ -1,5 +1,5 @@
 class Api::LoginController < ApplicationController
-  skip_before_action :verify_authenticity_token, :authorized, only: [:create]
+  skip_before_action :authorized, only: [:create]
 
   def create
     @user = User.find_by(username: user_login_params[:username])
