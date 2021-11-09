@@ -1,4 +1,4 @@
-class DoughnutsController < ApplicationController
+class Api::DoughnutsController < ApplicationController
   def index
     @doughnuts = Doughnut.all
   end
