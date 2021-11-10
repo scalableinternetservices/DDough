@@ -4,4 +4,5 @@ class Doughnut < ApplicationRecord
     validates :quantity, presence: true
     validates :description, presence: true
     has_many :orders
+    has_many :cart_items
 end

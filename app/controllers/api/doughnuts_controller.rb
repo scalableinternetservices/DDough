@@ -1,6 +1,8 @@
 class Api::DoughnutsController < ApplicationController
   def index
     @doughnuts = Doughnut.all
+
+    render json: @doughnuts
   end
 
   def show
@@ -15,7 +17,7 @@ class Api::DoughnutsController < ApplicationController
     @doughnut = Doughnut.new(doughnut_params)
 
     if @doughnut.save
-      redirect_to @doughnut
+      render json: @doughnut
     else
       render :new
     end
