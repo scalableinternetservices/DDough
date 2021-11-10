@@ -16,6 +16,10 @@ $color-error: #ef5645;
 
 $corner-radius: 20px;
 
+html, body {
+	font-family: $body-text;
+}
+
 .homepage-container {
 	width: 100%;
 	min-height: 100vh;
@@ -25,7 +29,6 @@ $corner-radius: 20px;
 @mixin primary-text($size: 1.4em, $vert-margin: 10px) {
 	margin: $vert-margin 0;
 	font-size: $size;
-	font-family: $body-text;
 	color: $color-text-primary;
 }
 
@@ -47,6 +50,7 @@ $corner-radius: 20px;
 	padding: 12px 16px;
 	color: $color-text-secondary;
 	background-color: $color-secondary;
+	font-family: $body-text;
 	cursor: pointer;
 	font-weight: 700;
 }
@@ -89,13 +93,12 @@ $corner-radius: 20px;
 }
 
 .navbar-right-buttons button {
+	@extend %button;
 	height: 100%;
 	margin: 0 10px;
 	padding: 0 1rem;
-	font-size: 1.2rem;
-	border-width: 0;
-	border-radius: 1rem;
-	color: $color-text-primary;
+	font-size: 2rem;
+	color: $color-text-secondary;
 }
 
 .store-display-container {
@@ -210,8 +213,10 @@ $corner-radius: 20px;
 }
 
 .login-form {
+	position: relative;
 	background-color: $color-primary;
-	border-radius: 0.5rem;
+	color: $color-text-primary;
+	border-radius: $corner-radius;
 	width: 360px;
 	display: flex;
 	flex-direction: column;
@@ -220,10 +225,22 @@ $corner-radius: 20px;
 	padding: 24px 48px;
 }
 
+.login-close-button {
+	@extend %button;
+	background-color: transparent;
+	color: $color-text-primary;
+	padding: 0;
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	font-size: 1.2rem;
+}
+
 .login-error {
 	background-color: $color-error;
+	color: $color-text-primary;
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: $corner-radius;
 	padding: 12px;
 	width: calc(100% - 24px);
 	margin: 5px 0;
@@ -238,29 +255,33 @@ $corner-radius: 20px;
 	margin-bottom: 12px;
 }
 
-.login-register-toggle button { 
+.login-register-toggle button {
+	font-family: $body-text;
+	color: $color-text-primary;
 	width: 50%;
 	background-color: transparent;
 	border: none;
-	border-radius: 0.5rem 0.5rem 0 0;
-	font-size: 1.2em;
-	padding: 0.5rem 2rem;
+	border-radius: $corner-radius $corner-radius 0 0;
+	font-size: 2rem;
+	padding: 0 2rem;
 }
 
 .login-register-toggle .selected {
 	background-color: $color-secondary;
+	color: $color-text-secondary;
 }
 
 .input-label {
 	color: $color-text-primary;
 	align-self: flex-start;
 	margin-top: 16px;
+	font-size: 1.5rem;
 }
 
 .input-field {
 	background-color: rgba(0, 0, 0, .08);
 	border: none;
-	border-radius: 0.5rem;
+	border-radius: $corner-radius;
 	padding: 12px;
 	width: calc(100% - 24px);
 	outline: none;
@@ -269,10 +290,16 @@ $corner-radius: 20px;
 }
 
 .login-button {
+	@extend %button;
     margin: 24px 0;
-	padding: 12px 24px;
+	padding: 0 24px;
     width: 100%;
-    font-size: 1.2em;
-	border-radius: 0.5rem;
-	border: none;
+    font-size: 2rem;
+}
+
+.role-dropdown {
+	font-family: $body-text;
+	font-size: 1.5rem;
+	width: 100%;
+	padding: 0 12px;
 }

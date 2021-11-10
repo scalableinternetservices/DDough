@@ -106,6 +106,8 @@ export default (props) => {
             {props.visible &&
                 <div className="login-backdrop">
                     <div className="login-form">
+                        <button className="login-close-button" onClick={props.hideLogin}>✖</button>
+
                         <h1>Sign in to DDough</h1>
 
                         {errorMessage &&
@@ -126,7 +128,7 @@ export default (props) => {
                             {registerMode &&
                                 <>
                                     <label htmlFor="role" className="input-label">Account Role</label>
-                                    <select name="role" className="input-field">
+                                    <select name="role" className="input-field role-dropdown">
                                         <option value="buyer">Buyer</option>
                                         <option value="seller">Seller</option>
                                     </select>
