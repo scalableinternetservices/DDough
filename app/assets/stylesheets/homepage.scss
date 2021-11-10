@@ -17,6 +17,7 @@ $color-secondary-alt: #e19caf;
 $color-tertiary: lemonchiffon;
 $color-text-primary: #412031;
 $color-text-secondary: #ffffff;
+$color-error: #ef5645;
 
 $corner-radius: 20px;
 
@@ -64,6 +65,8 @@ $corner-radius: 20px;
 	width: 100%;
 	height: 100px;
 	position: sticky;
+	display: flex;
+	justify-content: space-between;
 	color: $color-text-secondary;
 	background-color: $bgColor;	
 }
@@ -72,7 +75,7 @@ $corner-radius: 20px;
 	@include navbar;
 }
 
-.navbar-container-vendor {
+.navbar-container-seller {
 	@include navbar($bgColor: $color-secondary-alt);
 }
 
@@ -81,6 +84,23 @@ $corner-radius: 20px;
     margin-left: 36px;
     position: relative;
     top: 24px;
+}
+
+.navbar-right-buttons {
+	position: relative;
+	right: 36px;
+	top: 24px;
+	height: 52px;
+}
+
+.navbar-right-buttons button {
+	height: 100%;
+	margin: 0 10px;
+	padding: 0 1rem;
+	font-size: 1.2rem;
+	border-width: 0;
+	border-radius: 1rem;
+	color: $color-text-primary;
 }
 
 .store-display-container {
@@ -168,4 +188,97 @@ $corner-radius: 20px;
 .item-card-container:hover {
 	transition: .3s;
 	transform: translateY(-5px);
+}
+}
+
+.login-backdrop {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, .5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	animation-duration: 0.5s;
+	animation-name: fadein;
+}
+
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.login-form {
+	background-color: $color-primary;
+	border-radius: 0.5rem;
+	width: 360px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 24px 48px;
+}
+
+.login-error {
+	background-color: $color-error;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 12px;
+	width: calc(100% - 24px);
+	margin: 5px 0;
+	text-align: center;
+}
+
+.login-register-toggle {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1px solid black;
+	margin-bottom: 12px;
+}
+
+.login-register-toggle button { 
+	width: 50%;
+	background-color: transparent;
+	border: none;
+	border-radius: 0.5rem 0.5rem 0 0;
+	font-size: 1.2em;
+	padding: 0.5rem 2rem;
+}
+
+.login-register-toggle .selected {
+	background-color: $color-secondary;
+}
+
+.input-label {
+	color: $color-text-primary;
+	align-self: flex-start;
+	margin-top: 16px;
+}
+
+.input-field {
+	background-color: rgba(0, 0, 0, .08);
+	border: none;
+	border-radius: 0.5rem;
+	padding: 12px;
+	width: calc(100% - 24px);
+	outline: none;
+	margin: 5px 0;
+	color: $color-text-primary;
+}
+
+.login-button {
+    margin: 24px 0;
+	padding: 12px 24px;
+    width: 100%;
+    font-size: 1.2em;
+	border-radius: 0.5rem;
+	border: none;
 }

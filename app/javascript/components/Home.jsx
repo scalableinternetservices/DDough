@@ -1,6 +1,4 @@
 import React from "react";
-
-import Navbar from "./Navbar";
 import StoreDisplay from "./StoreDisplay";
 
 export default() => {
@@ -30,10 +28,7 @@ export default() => {
 		}
 	];
 
-	return(
-		<div className="homepage-container">
-			<Navbar />
-			<StoreDisplay itemList={MOCK_ITEMS} />
-		</div>
+	return (
+		<StoreDisplay itemList={MOCK_ITEMS} />
 	);
 }
