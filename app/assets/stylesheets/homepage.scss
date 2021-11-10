@@ -1,0 +1,283 @@
+// Place all the styles related to the Homepage controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+/*@font-face {
+	font-family: 'Dongle-Light';
+	src: url("fonts/Dongle-Light.ttf") format('truetype');
+}*/
+
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
+
+$body-text: 'Dongle', sans-serif;
+
+$color-primary: #ffffff;
+$color-secondary: #82c9b5;
+$color-secondary-alt: #e19caf;
+$color-tertiary: lemonchiffon;
+$color-text-primary: #412031;
+$color-text-secondary: #ffffff;
+$color-error: #ef5645;
+
+$corner-radius: 20px;
+
+.homepage-container {
+	width: 100%;
+	min-height: 100vh;
+	background-color: $color-primary;
+}
+
+@mixin primary-text($size: 1.4em, $vert-margin: 10px) {
+	margin: $vert-margin 0;
+	font-size: $size;
+	font-family: $body-text;
+	color: $color-text-primary;
+}
+
+%heading-s {
+	@include primary-text;
+}
+
+%heading-l {
+	@include primary-text($size: 2em, $vert-margin: -15px);
+}
+
+%description {
+	@include primary-text($size: 1.2em);
+}
+
+%button {
+	border: none;
+	border-radius: $corner-radius;
+	padding: 12px 16px;
+	color: $color-text-secondary;
+	background-color: $color-secondary;
+	cursor: pointer;
+	font-weight: 700;
+}
+
+%button:hover {
+	transition: .3s;
+	transform: scale(1.05);
+}
+
+@mixin navbar($bgColor: $color-secondary) {
+	width: 100%;
+	height: 100px;
+	position: sticky;
+	display: flex;
+	justify-content: space-between;
+	color: $color-text-secondary;
+	background-color: $bgColor;	
+}
+
+.navbar-container-buyer {
+	@include navbar;
+}
+
+.navbar-container-seller {
+	@include navbar($bgColor: $color-secondary-alt);
+}
+
+.navbar-logo {
+	width: 80px;
+    margin-left: 36px;
+    position: relative;
+    top: 24px;
+}
+
+.navbar-right-buttons {
+	position: relative;
+	right: 36px;
+	top: 24px;
+	height: 52px;
+}
+
+.navbar-right-buttons button {
+	height: 100%;
+	margin: 0 10px;
+	padding: 0 1rem;
+	font-size: 1.2rem;
+	border-width: 0;
+	border-radius: 1rem;
+	color: $color-text-primary;
+}
+
+.store-display-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 48px 60px;
+
+	.store-display-wrapper {
+		width:  80%;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		row-gap: 30px;
+	}
+}
+
+.item-card-container {
+	width: 160px;
+	height: 300px;
+	border-radius: $corner-radius;
+	display: flex;
+	flex-direction: column;
+	padding: 30px 24px;
+	box-shadow: 0 8px 8px rgba(0, 0, 0, .1);
+	position: relative;
+
+	.item-card-img {
+		border-radius: $corner-radius;
+	}
+
+	.item-card-name {
+		@extend %heading-s;
+	}
+
+	.item-card-price {
+		@extend %heading-l;
+	}
+
+	.item-card-quantity {
+		position: absolute;
+    	right: 15px;
+    	top: 16px;
+	    background-color: $color-text-primary;
+	    color: $color-text-secondary;
+	    font-family: $body-text;
+	    border-radius: 100%;
+	    padding: 5px;
+	    margin: 0;
+	    min-width: 1.4em;
+	    text-align: center;
+	}
+
+	.item-card-description {
+		@extend %description;
+		opacity: .75;
+	}
+
+	.purchase-form {
+		position: absolute;
+		width: calc(100% - 48px);
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.purchase-quantity {
+		@extend %heading-l;
+		border: none;
+		text-align: center;
+		width: 50%;
+		margin: 12px auto;
+		background-color: rgba(255, 255, 255, .3);
+		border-radius: $corner-radius;
+		outline: none;
+	}
+
+	.buy-now-button {
+		@extend %button;
+		width: 80%;
+	}
+}
+
+.item-card-container:hover {
+	transition: .3s;
+	transform: translateY(-5px);
+}
+
+.login-backdrop {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, .5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	animation-duration: 0.5s;
+	animation-name: fadein;
+}
+
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.login-form {
+	background-color: $color-primary;
+	border-radius: 0.5rem;
+	width: 360px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 24px 48px;
+}
+
+.login-error {
+	background-color: $color-error;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 12px;
+	width: calc(100% - 24px);
+	margin: 5px 0;
+	text-align: center;
+}
+
+.login-register-toggle {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1px solid black;
+	margin-bottom: 12px;
+}
+
+.login-register-toggle button { 
+	width: 50%;
+	background-color: transparent;
+	border: none;
+	border-radius: 0.5rem 0.5rem 0 0;
+	font-size: 1.2em;
+	padding: 0.5rem 2rem;
+}
+
+.login-register-toggle .selected {
+	background-color: $color-secondary;
+}
+
+.input-label {
+	color: $color-text-primary;
+	align-self: flex-start;
+	margin-top: 16px;
+}
+
+.input-field {
+	background-color: rgba(0, 0, 0, .08);
+	border: none;
+	border-radius: 0.5rem;
+	padding: 12px;
+	width: calc(100% - 24px);
+	outline: none;
+	margin: 5px 0;
+	color: $color-text-primary;
+}
+
+.login-button {
+    margin: 24px 0;
+	padding: 12px 24px;
+    width: 100%;
+    font-size: 1.2em;
+	border-radius: 0.5rem;
+	border: none;
+}

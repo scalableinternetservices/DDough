@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "doughnuts#index"
+  root 'homepage#index'
   namespace :api do
     resources :orders, only: [:index, :create, :show]
     resources :doughnuts
