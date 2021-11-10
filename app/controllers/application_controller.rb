@@ -30,8 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logged_in?
-    # !!current_user
-    true
+    !!current_user
   end
 
   def authorized
