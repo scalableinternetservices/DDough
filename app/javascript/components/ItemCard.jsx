@@ -11,27 +11,32 @@ export default(props) => {
 			onMouseEnter={() => setDisplayBuy(true)}
 			onMouseLeave={() => setDisplayBuy(false)}
 		>
+			<div className="item-info-wrapper">
+				<img 
+					src={props.img || (props.idx % 2 == 0 ? Placeholder1 : Placeholder2)}
+					alt={`Image of ${props.name}`} 
+					className="item-card-img"
+				/>
+				<div className={displayBuy ? " blur" : ""}>
+					<p className="item-card-name">{props.name}</p>
+					<p className="item-card-price">{props.price}</p>
+
+					{props.description && (
+						<p className="item-card-description">{props.description}</p>
+					)}
+				</div>
+
+				{props.quantity && (
+					<p className="item-card-quantity">{props.quantity}</p>
+				)}
+			</div>
 
 			{displayBuy && (
 				<form className="purchase-form">
-					<input type="number" defaultValue={1} className="purchase-quantity" />
+					<label htmlFor="quantity" className="quantity-label">Quantity</label>
+					<input type="number" name="quantity" defaultValue={1} className="purchase-quantity" />
 					<input type="submit" value="Buy Now" className="buy-now-button" />
 				</form>
-			)}
-
-			<img 
-				src={props.img || (props.idx % 2 == 0 ? Placeholder1 : Placeholder2)}
-				alt={`Image of ${props.name}`} 
-				className="item-card-img"
-			/>
-			<p className="item-card-name">{props.name}</p>
-			<p className="item-card-price">{props.price}</p>
-
-			{props.description && (
-				<p className="item-card-description">{props.description}</p>
-			)}
-			{props.quantity && (
-				<p className="item-card-quantity">{props.quantity}</p>
 			)}
 		</div>
 	);
