@@ -34,7 +34,7 @@ export default(props) => {
 			{displayBuy && (
 				<form className="purchase-form">
 					<label htmlFor="quantity" className="quantity-label">Quantity</label>
-					<input type="number" name="quantity" defaultValue={1} className="purchase-quantity" />
+					<input type="number" name="quantity" defaultValue={1} min={1} className="purchase-quantity" />
 					<input type="submit" value="Buy Now" className="buy-now-button" />
 				</form>
 			)}
