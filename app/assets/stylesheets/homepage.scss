@@ -2,16 +2,62 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+/*@font-face {
+	font-family: 'Dongle-Light';
+	src: url("fonts/Dongle-Light.ttf") format('truetype');
+}*/
+
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
+
+$body-text: 'Dongle', sans-serif;
+
 $color-primary: #ffffff;
 $color-secondary: #82c9b5;
 $color-secondary-alt: #e19caf;
+$color-tertiary: lemonchiffon;
 $color-text-primary: #412031;
 $color-text-secondary: #ffffff;
+
+$corner-radius: 20px;
 
 .homepage-container {
 	width: 100%;
 	min-height: 100vh;
 	background-color: $color-primary;
+}
+
+@mixin primary-text($size: 1.4em, $vert-margin: 10px) {
+	margin: $vert-margin 0;
+	font-size: $size;
+	font-family: $body-text;
+	color: $color-text-primary;
+}
+
+%heading-s {
+	@include primary-text;
+}
+
+%heading-l {
+	@include primary-text($size: 2em, $vert-margin: -15px);
+}
+
+%description {
+	@include primary-text($size: 1.2em);
+}
+
+%button {
+	border: none;
+	border-radius: $corner-radius;
+	padding: 12px 16px;
+	color: $color-text-secondary;
+	background-color: $color-secondary;
+	cursor: pointer;
+	font-weight: 700;
+}
+
+%button:hover {
+	transition: .3s;
+	transform: scale(1.05);
 }
 
 @mixin navbar($bgColor: $color-secondary) {
@@ -52,31 +98,74 @@ $color-text-secondary: #ffffff;
 }
 
 .item-card-container {
-	width: 120px;
-	height: 410px;
-	border-radius: 20px;
+	width: 160px;
+	height: 300px;
+	border-radius: $corner-radius;
 	display: flex;
 	flex-direction: column;
-	padding: 30px 36px;
+	padding: 30px 24px;
 	box-shadow: 0 8px 8px rgba(0, 0, 0, .1);
+	position: relative;
 
 	.item-card-img {
-		border-radius: 20px;
+		border-radius: $corner-radius;
 	}
 
 	.item-card-name {
-
+		@extend %heading-s;
 	}
 
 	.item-card-price {
-
+		@extend %heading-l;
 	}
 
 	.item-card-quantity {
-
+		position: absolute;
+    	right: 15px;
+    	top: 16px;
+	    background-color: $color-text-primary;
+	    color: $color-text-secondary;
+	    font-family: $body-text;
+	    border-radius: 100%;
+	    padding: 5px;
+	    margin: 0;
+	    min-width: 1.4em;
+	    text-align: center;
 	}
 
 	.item-card-description {
-	
+		@extend %description;
+		opacity: .75;
 	}
+
+	.purchase-form {
+		position: absolute;
+		width: calc(100% - 48px);
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.purchase-quantity {
+		@extend %heading-l;
+		border: none;
+		text-align: center;
+		width: 50%;
+		margin: 12px auto;
+		background-color: rgba(255, 255, 255, .3);
+		border-radius: $corner-radius;
+		outline: none;
+	}
+
+	.buy-now-button {
+		@extend %button;
+		width: 80%;
+	}
+}
+
+.item-card-container:hover {
+	transition: .3s;
+	transform: translateY(-5px);
 }
