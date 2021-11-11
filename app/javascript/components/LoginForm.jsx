@@ -26,25 +26,28 @@ export default (props) => {
         try {
             const response = await fetch("/api/login", options);
             const responseBody = await response.json();
-            console.log(responseBody);
 
             switch (response.status) {
                 case 202: {
-                    console.log("Success!");
+                    const cookieOptions = {
+                        path: "/",
+                        expires: new Date(responseBody.exp)
+                    };
+                    
+                    props.setCookie("ddough-auth", responseBody.jwt, cookieOptions);
                     props.setUsername(responseBody.user.username);
                     props.setRole(responseBody.user.role);
                     props.hideLogin();
                     break;
                 }
                 default: {
-                    console.log("Failure!");
                     setErrorMessage(responseBody?.message);
                     break;
                 }
             }
         } catch (e) {
 			setErrorMessage("An error occurred during login");
-			console.log("Unable to Login. Error:", e);
+			console.log("Unable to login. Error:", e);
 		}
     }
 
@@ -71,25 +74,28 @@ export default (props) => {
         try {
             const response = await fetch("/api/register", options);
             const responseBody = await response.json();
-            console.log(responseBody);
 
             switch (response.status) {
                 case 201: {
-                    console.log("Success!");
+                    const cookieOptions = {
+                        path: "/",
+                        expires: new Date(responseBody.exp)
+                    };
+                    
+                    props.setCookie("ddough-auth", responseBody.jwt, cookieOptions);
                     props.setUsername(responseBody.user.username);
                     props.setRole(responseBody.user.role);
                     props.hideLogin();
                     break;
                 }
                 default: {
-                    console.log("Failure!");
                     setErrorMessage(responseBody?.message);
                     break;
                 }
             }
         } catch (e) {
-			setErrorMessage("An error occurred during login");
-			console.log("Unable to Login. Error:", e);
+			setErrorMessage("An error occurred during registration");
+			console.log("Unable to register. Error:", e);
 		}
     }
     
@@ -121,9 +127,10 @@ export default (props) => {
 
                         <form onSubmit={registerMode ? registerHandler : loginHandler}>
                             <label htmlFor="username" className="input-label">Username</label>
-                            <input type="text" name="username" className="input-field" />
+                            <input type="text" name="username" autoComplete="username" className="input-field" />
                             <label htmlFor="password" className="input-label">Password</label>
-                            <input type="password" name="password" className="input-field" />
+                            <input type="password" name="password" className="input-field"
+                                autoComplete={registerMode ? "new-password" : "currentPassword"} />
 
                             {registerMode &&
                                 <>

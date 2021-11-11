@@ -12,7 +12,7 @@ $color-secondary-alt: #e19caf;
 $color-tertiary: lemonchiffon;
 $color-text-primary: #412031;
 $color-text-secondary: #ffffff;
-$color-error: #ef5645;
+$color-error: #ef9999;
 
 $corner-radius: 20px;
 
@@ -85,19 +85,27 @@ html, body {
     top: 24px;
 }
 
-.navbar-right-buttons {
+.navbar-right {
 	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 	right: 36px;
 	top: 24px;
 	height: 52px;
 }
 
-.navbar-right-buttons button {
+.navbar-right p {
+	font-size: 1.6rem;
+}
+
+.navbar-right button {
 	@extend %button;
 	height: 100%;
 	margin: 0 10px;
 	padding: 0 1rem;
 	font-size: 2rem;
+	background-color: transparent;
 	color: $color-text-secondary;
 }
 
@@ -225,6 +233,10 @@ html, body {
 	padding: 24px 48px;
 }
 
+.login-form h1 {
+	margin-bottom: 12px;
+}
+
 .login-close-button {
 	@extend %button;
 	background-color: transparent;
@@ -245,6 +257,7 @@ html, body {
 	width: calc(100% - 24px);
 	margin: 5px 0;
 	text-align: center;
+	font-size: 1.5rem;
 }
 
 .login-register-toggle {
@@ -252,7 +265,7 @@ html, body {
 	display: flex;
 	flex-direction: row;
 	border-bottom: 1px solid black;
-	margin-bottom: 12px;
+	margin: 12px 0;
 }
 
 .login-register-toggle button {
