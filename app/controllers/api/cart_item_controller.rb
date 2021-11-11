@@ -1,4 +1,4 @@
-class Api::CartController < ApplicationController
+class Api::CartItemController < ApplicationController
   before_action :get_cart
 
   def index
