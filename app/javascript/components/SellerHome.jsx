@@ -1,6 +1,5 @@
 import React from "react";
 
-import Navbar from "./Navbar";
 import StoreDisplay from "./StoreDisplay";
 
 export default() => {
@@ -30,12 +29,34 @@ export default() => {
 		}
 	];
 
+	const MOCK_ORDERS = [
+		{
+			username: "Iris",
+			items: {
+				"Signature Ddough": 3,
+				"Sweet Ruby": 5
+			},
+			cost: 5.1
+		},
+		{
+			username: "Alan",
+			items: {
+				"Bbough": 10
+			},
+			cost: 15.0
+		},
+		{
+			username: "Andrew",
+			items: {
+				"Classic Donut": 1
+			}
+		}
+	];
+
 	return(
-		<div className="homepage-container">
-			<Navbar vendor="Default" />
-			<div>
-				<StoreDisplay itemList={MOCK_ITEMS} />
-			</div>
+		<div className="seller-home-container">
+			<OrderList orders={MOCK_ORDERS} />
+			<StoreDisplay itemList={MOCK_ITEMS} />
 		</div>
 	);
 }
