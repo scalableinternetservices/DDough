@@ -17,7 +17,7 @@ export default(props) => {
 					alt={`Image of ${props.name}`} 
 					className="item-card-img"
 				/>
-				<div className={displayBuy ? " blur" : ""}>
+				<div className={(displayBuy && props.role != null) ? " blur" : ""}>
 					<p className="item-card-name">{props.name}</p>
 					<p className="item-card-price">{props.price}</p>
 
@@ -31,7 +31,7 @@ export default(props) => {
 				)}
 			</div>
 
-			{displayBuy && (
+			{(displayBuy && props.role != null) && (
 				<form className="purchase-form">
 					<label htmlFor="quantity" className="quantity-label">Quantity</label>
 					<input type="number" name="quantity" defaultValue={1} min={1} className="purchase-quantity" />

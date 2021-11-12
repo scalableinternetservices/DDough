@@ -1,7 +1,7 @@
 import React from "react";
 import StoreDisplay from "./StoreDisplay";
 
-export default() => {
+export default(props) => {
 	const MOCK_ITEMS = [
 		{
 			name: "Classic Donut",
@@ -29,6 +29,6 @@ export default() => {
 	];
 
 	return (
-		<StoreDisplay itemList={MOCK_ITEMS} />
+		<StoreDisplay itemList={MOCK_ITEMS} role={props.role} />
 	);
 }

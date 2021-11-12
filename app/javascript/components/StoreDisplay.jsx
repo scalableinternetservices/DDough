@@ -14,6 +14,7 @@ export default(props) => (
 					img={item.img} 
 					description={item.description}
 					quantity={item.quantity}
+					role={props.role}
 				/>
 			))}
 		</div>
