@@ -65,7 +65,8 @@ export default (props) => {
                 role={role}
                 username={username}
                 showLogin={showLogin}
-                signOut={signOut} />
+                signOut={signOut}
+            />
 
             {Routes}
 
@@ -74,7 +75,8 @@ export default (props) => {
                 setRole={setRole}
                 setUsername={setUsername}
                 setCookie={setCookie}
-                hideLogin={hideLogin} />
+                hideLogin={hideLogin}
+            />
         </div>
     );
 };
