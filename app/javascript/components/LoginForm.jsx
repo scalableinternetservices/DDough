@@ -40,7 +40,12 @@ export default (props) => {
                     props.hideLogin();
                     break;
                 }
+                case 500: {
+                    setErrorMessage("A server error occurred");
+                    break;
+                }
                 default: {
+                    const responseBody = await response.json();
                     setErrorMessage(responseBody?.message);
                     break;
                 }
@@ -88,7 +93,17 @@ export default (props) => {
                     props.hideLogin();
                     break;
                 }
+                case 422: {
+                    const responseBody = await response.json();
+                    setErrorMessage(responseBody.errors.join("\r\n"));
+                    break;
+                }
+                case 500: {
+                    setErrorMessage("A server error occurred");
+                    break;
+                }
                 default: {
+                    const responseBody = await response.json();
                     setErrorMessage(responseBody?.message);
                     break;
                 }
