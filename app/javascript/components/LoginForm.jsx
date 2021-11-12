@@ -25,10 +25,10 @@ export default (props) => {
 
         try {
             const response = await fetch("/api/login", options);
-            const responseBody = await response.json();
 
             switch (response.status) {
                 case 202: {
+                    const responseBody = await response.json();
                     const cookieOptions = {
                         path: "/",
                         expires: new Date(responseBody.exp)
@@ -73,10 +73,10 @@ export default (props) => {
 
         try {
             const response = await fetch("/api/register", options);
-            const responseBody = await response.json();
 
             switch (response.status) {
                 case 201: {
+                    const responseBody = await response.json();
                     const cookieOptions = {
                         path: "/",
                         expires: new Date(responseBody.exp)
