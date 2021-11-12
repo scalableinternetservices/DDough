@@ -1,26 +1,15 @@
-class Api::CartItemController < ApplicationController
+class Api::CartController < ApplicationController
   before_action :get_cart
 
   def index
-    if !@cart
-      render json: { message: "Cart not found" }, status: 404
-    else
-      items = CartItem
-        .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
-        .joins(:cart, :doughnut)
-        .where(cart_id: @cart.id)
-      render json: items
-    end
+    items = CartItem
+      .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
+      .joins(:cart, :doughnut)
+      .where(cart_id: @cart.id)
+    render json: items
   end
 
   def create
-    if !@cart
-      @cart = Cart.create(user_id: @user.id)
-      if !@cart.valid?
-        render json: { errors: @cart.errors.full_messages }, status: :unprocessable_entity
-      end
-    end
-
     @item = CartItem.new
     @item.doughnut_id = item_params[:doughnut_id]
     @item.quantity = item_params[:quantity]
@@ -50,12 +39,19 @@ class Api::CartItemController < ApplicationController
   end
 
   private
-  def item_params
-    params.permit(:doughnut_id, :quantity)
+  def get_cart
+    if @user.id != params[:user_id].to_i
+      render json: { message: 'unauthorized' }, status: :unauthorized
+    else
+      @cart = Cart.find_by(user_id: @user.id)
+      if !@cart
+        @cart = Cart.create(user_id: @user.id)
+      end
+    end
   end
 
-  def get_cart
-    @user = current_user
-    @cart = Cart.find_by(user_id: @user.id)
+  private
+  def item_params
+    params.permit(:doughnut_id, :quantity)
   end
 end
