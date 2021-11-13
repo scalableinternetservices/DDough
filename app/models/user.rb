@@ -3,4 +3,5 @@ class User < ApplicationRecord
   enum role: [:buyer, :seller]
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :role, presence: true
+  has_one :cart
 end

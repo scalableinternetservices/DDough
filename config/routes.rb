@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   namespace :api do
     resources :orders, only: [:index, :create, :show]
     resources :doughnuts
-    resources :register, only: [:create]
     resources :login, only: [:create]
-    resources :user
+    resources :user do
+      resources :cart
+    end
   end
 end
