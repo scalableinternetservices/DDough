@@ -77,7 +77,7 @@ export default (props) => {
 		};
 
         try {
-            const response = await fetch("/api/register", options);
+            const response = await fetch("/api/user", options);
 
             switch (response.status) {
                 case 201: {
