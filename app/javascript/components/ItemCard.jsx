@@ -19,7 +19,7 @@ export default(props) => {
 				/>
 				<div className={(displayBuy && props.role != null) ? " blur" : ""}>
 					<p className="item-card-name">{props.name}</p>
-					<p className="item-card-price">{props.price}</p>
+					<p className="item-card-price">${props.price.toPrecision(3)}</p>
 
 					{props.description && (
 						<p className="item-card-description">{props.description}</p>

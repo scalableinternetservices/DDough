@@ -40,7 +40,9 @@ export default(props) => {
 		},
 		{
 			id: 3,
-			username: "Andrew",
+			user: {
+				username: "Andrew"
+			},
 			items: [
 				{
 					id: 1,
