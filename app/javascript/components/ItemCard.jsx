@@ -26,7 +26,7 @@ export default(props) => {
 					)}
 				</div>
 
-				{props.quantity && (
+				{(props.quantity && props.role == "seller") && (
 					<p className="item-card-quantity">{props.quantity}</p>
 				)}
 			</div>
