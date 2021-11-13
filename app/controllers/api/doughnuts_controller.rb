@@ -23,10 +23,11 @@ class Api::DoughnutsController < ApplicationController
 
   def update
     if doughnut
-      doughnut.update_attributes(doughnut_params)
+      doughnut.update(doughnut_params)
       render json: doughnut
     else
       render json: doughnut.errors
+    end
   end
 
   def destroy

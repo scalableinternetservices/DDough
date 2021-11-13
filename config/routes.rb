@@ -5,6 +5,6 @@ Rails.application.routes.draw do
     resources :doughnuts, only: [:index, :show, :create, :update, :destroy]
     resources :register, only: [:create]
     resources :login, only: [:create]
-    resources :user, only [:index]
+    resources :user, only: [:index]
   end
 end
