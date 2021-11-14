@@ -26,6 +26,20 @@ html, body {
 	background-color: $color-primary;
 }
 
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: $corner-radius;
+	background-color: rgba(0, 0, 0, .05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, .1);
+}
+
 @mixin primary-text($size: 1.4em, $vert-margin: 10px) {
 	margin: $vert-margin 0;
 	font-size: $size;
@@ -59,6 +73,16 @@ html, body {
 %button:hover {
 	transition: .3s;
 	transform: scale(1.05);
+}
+
+.round-button {
+	@extend %button;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
 }
 
 @mixin navbar($bgColor: $color-secondary) {
@@ -112,16 +136,23 @@ html, body {
 
 .store-container {
 	width: 100%;
+	height: calc(100vh - 100px);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	overflow-y: hidden;
+}
+
+.store-display-scroll-wrapper {
+	width: 100%;
+	overflow-y: scroll;
 }
 
 .store-display-container {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-	padding: 48px 0;
+	padding: 48px 0 60px 0;
 
 	.store-display-wrapper {
 		width:  80%;
@@ -129,6 +160,20 @@ html, body {
 		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 		row-gap: 30px;
 		justify-items: center;
+	}
+
+	.add-item-button {
+		@extend .round-button;
+		background-color: $color-secondary-alt;
+		position: absolute;
+		bottom: 60px;
+		right: 60px;
+
+		span {
+			font-size: 3em;
+			position: relative;
+			top: .05em;
+		}
 	}
 }
 
@@ -178,6 +223,42 @@ html, body {
 		opacity: .75;
 	}
 
+	.action-buttons-wrapper {
+		position: absolute;
+		bottom: 50px;
+		right: -18px;
+
+		.action-button {
+			@extend .round-button;
+			width: 36px;
+			height: 36px;
+			margin: 3px 0;
+			border: solid 2px $color-primary;
+
+			img {
+				flex-shrink: 0;
+			}
+		}
+
+		.edit-item-button {
+			@extend .action-button;
+			background-color: $color-secondary;
+
+			img {
+				width: 16px;
+			}
+		}
+
+		.delete-item-button {
+			@extend .action-button;
+			background-color: $color-error;
+
+			img {
+				width: 14px;
+			}
+		}
+	}
+
 	.purchase-form {
 		position: absolute;
 		width: calc(100% - 48px);
@@ -218,18 +299,21 @@ html, body {
 	filter: blur(3px);
 }
 
-.login-backdrop {
+.backdrop, .fullscreen-center-container {
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color: rgba(0, 0, 0, .5);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	animation-duration: 0.5s;
 	animation-name: fadein;
+}
+
+.backdrop {
+	background-color: rgba(0, 0, 0, .5);
 }
 
 @keyframes fadein {
@@ -242,7 +326,7 @@ html, body {
 	}
 }
 
-.login-form {
+.overlay-form-container {
 	position: relative;
 	background-color: $color-primary;
 	color: $color-text-primary;
@@ -253,13 +337,13 @@ html, body {
 	justify-content: center;
 	align-items: center;
 	padding: 24px 48px;
+
+	h1 {
+		margin-bottom: 12px;
+	}
 }
 
-.login-form h1 {
-	margin-bottom: 12px;
-}
-
-.login-close-button {
+.close-button {
 	@extend %button;
 	background-color: transparent;
 	color: $color-text-primary;
@@ -345,6 +429,7 @@ html, body {
 	width: 450px;
 	padding: 60px 24px;
 	box-shadow: 1px 0 7px rgba(0, 0, 0, .1);
+	overflow-y: scroll;
 
 	.order-list-title {
 		@extend %heading-l;
