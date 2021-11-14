@@ -1,26 +1,17 @@
 class Api::OrdersController < ApplicationController
-  skip_before_action :authorized
-
   def index
-    orders = Order.all
+    orders = Order.where(user: @user)
     render json: orders, include: [:user => {:only => [:id, :username]}, :doughnut => {:only => [:id, :name, :price, :description]}], only: [:id, :created_at, :updated_at, :user, :doughnut]
   end
 
   def create
-    order = Order.create(order_params)
-    if order.id
+    order = Order.new
+    order.user_id = @user.id
+    order.doughnut_id = order_params[:doughnut_id]
+    if order.save
       render json: order, include: [:user => {:only => [:id, :username]}, :doughnut => {:only => [:id, :name, :price, :description]}], only: [:id, :created_at, :updated_at, :user, :doughnut]
     else
       render json: { error: order.errors }
-    end
-  end
-
-  def show
-    @order ||= Order.find_by_id(params[:id])
-    if @order
-      render json: @order, include: [:user => {:only => [:id, :username]}, :doughnut => {:only => [:id, :name, :price, :description]}], only: [:id, :created_at, :updated_at, :user, :doughnut]
-    else
-      render json: { error: 'Order does not exist'}, status: 404
     end
   end
 
