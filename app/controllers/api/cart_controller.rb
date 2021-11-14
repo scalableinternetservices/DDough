@@ -10,10 +10,17 @@ class Api::CartController < ApplicationController
   end
 
   def create
-    @item = CartItem.new
-    @item.doughnut_id = item_params[:doughnut_id]
-    @item.quantity = item_params[:quantity]
-    @item.cart_id = @cart.id
+    @item = CartItem.where(cart_id: @cart.id, doughnut_id: item_params[:doughnut_id])
+
+    if @item.blank?
+      @item = CartItem.new
+      @item.doughnut_id = item_params[:doughnut_id]
+      @item.quantity = item_params[:quantity]
+      @item.cart_id = @cart.id
+    else
+      @item = @item.first
+      @item.quantity += item_params[:quantity]
+    end
 
     if @item.save
       items = CartItem
@@ -35,6 +42,22 @@ class Api::CartController < ApplicationController
       head 204
     else
       head :unauthorized
+    end
+  end
+
+  def checkout
+    order = Order.create(user: @user)
+    cart_items = CartItem.where(cart_id: @cart.id)
+    if !cart_items.empty?
+      cart_items_json = cart_items.as_json(only: [:quantity, :doughnut_id])
+      puts "this is cart_items_json"
+      puts cart_items_json
+      cart_items_json.each {|item| item["order_id"] = order.id}
+      OrderItem.create(cart_items_json)
+      @cart.delete
+      render json: { message: 'cart successfully checked out'}
+    else
+      render json: { error: 'cart is empty'}, status: :conflict
     end
   end
 

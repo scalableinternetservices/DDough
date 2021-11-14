@@ -1,22 +1,40 @@
 class Api::OrdersController < ApplicationController
+  before_action :verify_permissions
+
   def index
-    orders = Order.where(user: @user)
-    render json: orders, include: [:user => {:only => [:id, :username]}, :doughnut => {:only => [:id, :name, :price, :description]}], only: [:id, :created_at, :updated_at, :user, :doughnut]
+    orders_json = Order
+      .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
+      .joins(order_items: [:doughnut])
+      .where(user: @user)
+    render json: orders_json
   end
 
   def create
-    order = Order.new
-    order.user_id = @user.id
-    order.doughnut_id = order_params[:doughnut_id]
-    if order.save
-      render json: order, include: [:user => {:only => [:id, :username]}, :doughnut => {:only => [:id, :name, :price, :description]}], only: [:id, :created_at, :updated_at, :user, :doughnut]
+    order = Order.create(user: @user)
+    order_item = OrderItem.new
+    order_item.order_id = order.id
+    order_item.doughnut_id = order_params[:doughnut_id]
+    order_item.quantity = order_params[:quantity]
+    if order_item.save
+      orders_json = Order
+        .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
+        .joins(order_items: [:doughnut])
+        .where(user: @user)
+      render json: orders_json, status: :created
     else
-      render json: { error: order.errors }
+      render json: { error: order.errors }, status: :unprocessable_entity
     end
   end
 
   private
   def order_params
-    params.permit(:user_id, :doughnut_id)
+    params.permit(:doughnut_id, :quantity)
+  end
+
+  private
+  def verify_permissions
+    if @user.id != params[:user_id].to_i
+      render json: { message: 'unauthorized' }, status: :unauthorized
+    end
   end
 end
