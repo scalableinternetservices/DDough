@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_09_054331) do
+ActiveRecord::Schema.define(version: 2021_11_14_015314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,12 +41,20 @@ ActiveRecord::Schema.define(version: 2021_11_09_054331) do
     t.integer "quantity"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.integer "quantity"
+    t.bigint "order_id", null: false
+    t.bigint "doughnut_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["doughnut_id"], name: "index_order_items_on_doughnut_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
-    t.bigint "doughnut_id", null: false
-    t.index ["doughnut_id"], name: "index_orders_on_doughnut_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -61,6 +69,7 @@ ActiveRecord::Schema.define(version: 2021_11_09_054331) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "doughnuts"
   add_foreign_key "carts", "users"
-  add_foreign_key "orders", "doughnuts"
+  add_foreign_key "order_items", "doughnuts"
+  add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
 end
