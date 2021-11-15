@@ -2,11 +2,15 @@ class Api::OrdersController < ApplicationController
   before_action :verify_permissions
 
   def index
-    orders_json = Order
-      .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
-      .joins(order_items: [:doughnut])
-      .where(user: @user)
-    render json: orders_json
+    ### COMPARE FOR LOAD TESTING ###
+    # orders_json = Order
+    #   .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
+    #   .joins(order_items: [:doughnut])
+    #   .where(user: @user)
+    # render json: orders_json
+    orders = Order.includes(order_items: [:doughnut]).where(user: @user)
+    render json: orders, except: [:user_id],
+      include: [:user => {:only => [:username]}, :order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
   end
 
   def create
@@ -16,11 +20,14 @@ class Api::OrdersController < ApplicationController
     order_item.doughnut_id = order_params[:doughnut_id]
     order_item.quantity = order_params[:quantity]
     if order_item.save
-      orders_json = Order
-        .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
-        .joins(order_items: [:doughnut])
-        .where(user: @user)
-      render json: orders_json, status: :created
+      ### COMPARE FOR LOAD TESTING ###
+      # orders_json = Order
+      #   .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
+      #   .joins(order_items: [:doughnut])
+      #   .where(user: @user)
+      # render json: orders_json, status: :created
+      render json: order, except: [:user_id],
+        include: [:order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}], status: :created
     else
       render json: { error: order.errors }, status: :unprocessable_entity
     end

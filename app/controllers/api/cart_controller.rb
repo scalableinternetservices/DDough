@@ -2,11 +2,15 @@ class Api::CartController < ApplicationController
   before_action :get_cart
 
   def index
-    items = CartItem
-      .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
-      .joins(:cart, :doughnut)
-      .where(cart_id: @cart.id)
-    render json: items
+    ### COMPARE FOR LOAD TESTING ###
+    # items = CartItem
+    #   .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
+    #   .joins(:cart, :doughnut)
+    #   .where(cart_id: @cart.id)
+    # render json: items
+    @cart = Cart.includes(cart_items: [:doughnut]).where(user_id: @user.id)
+    render json: @cart, except: [:user_id],
+      include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
   end
 
   def create
@@ -23,11 +27,15 @@ class Api::CartController < ApplicationController
     end
 
     if @item.save
-      items = CartItem
-        .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
-        .joins(:cart, :doughnut)
-        .where(cart_id: @cart.id)
-      render json: items, status: :created
+      ### COMPARE FOR LOAD TESTING ###
+      # items = CartItem
+      #   .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
+      #   .joins(:cart, :doughnut)
+      #   .where(cart_id: @cart.id)
+      # render json: items, status: :created
+      @cart = Cart.includes(cart_items: [:doughnut]).where(id: @cart.id)
+      render json: @cart, except: [:user_id],
+        include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}], status: :created
     else
       render json: { error: @item.errors.full_messages }, status: :unprocessable_entity
     end
