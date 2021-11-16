@@ -58,7 +58,10 @@ export default(props) => {
 
 	useEffect(async () => {
 		const response = await fetch("/api/orders");
-		// console.log(await response.json());
+		console.log(await response.json());
+		// switch(response.status) {
+		// 	case 
+		// }
 	}, []);
 
 	return (
