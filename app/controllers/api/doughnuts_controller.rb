@@ -1,50 +1,49 @@
 class Api::DoughnutsController < ApplicationController
+  skip_before_action :authorized, only: [:index]
+
   def index
-    @doughnuts = Doughnut.all
+    doughnuts = Doughnut.all
+    render json: doughnuts
   end
 
   def show
-    @doughnut = Doughnut.find(params[:id])
-  end
-
-  def new
-    @doughnut = Doughnut.new
-  end
-
-  def create
-    @doughnut = Doughnut.new(doughnut_params)
-
-    if @doughnut.save
-      redirect_to @doughnut
+    if doughnut
+      render json: doughnut
     else
-      render :new
+      render json: doughnut.errors
     end
   end
 
-  def edit
-    @doughnut = Doughnut.find(params[:id])
+  def create
+    doughnut = Doughnut.create(doughnut_params)
+    if doughnut
+      render json: doughnut
+    else
+      render json: doughnut.errors
+    end
   end
 
   def update
-    @doughnut = Doughnut.find(params[:id])
-
-    if @doughnut.update(doughnut_params)
-      redirect_to @doughnut
+    if doughnut
+      doughnut.update(doughnut_params)
+      render json: doughnut
     else
-      render :edit
+      render json: doughnut.errors
     end
   end
 
   def destroy
-    @doughnut = Doughnut.find(params[:id])
-    @doughnut.destroy
-
-    redirect_to root_path
+    doughnut&.destroy
+    render json: { message: 'Doughnut deleted!' }
   end
 
   private
     def doughnut_params
       params.require(:doughnut).permit(:name, :price, :quantity, :description)
+    end
+
+    def doughnut
+      @doughnut ||= Doughnut.find(params[:id])
     end
   
 end
