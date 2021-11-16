@@ -1,6 +1,6 @@
 class Api::DoughnutsController < ApplicationController
   skip_before_action :authorized, only: [:index]
-  
+
   def index
     doughnuts = Doughnut.all
     render json: doughnuts
@@ -25,10 +25,11 @@ class Api::DoughnutsController < ApplicationController
 
   def update
     if doughnut
-      doughnut. (doughnut_params)
+      doughnut.update(doughnut_params)
       render json: doughnut
     else
       render json: doughnut.errors
+    end
   end
 
   def destroy
