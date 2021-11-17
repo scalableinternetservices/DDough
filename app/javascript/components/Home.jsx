@@ -29,7 +29,8 @@ export default(props) => {
 
         switch (response.status) {
             case 200: {
-                setItems(await response.json());
+                const doughnuts = await response.json();
+                setItems(doughnuts.sort((a, b) => a.id - b.id));
                 break;
             }
             case 204: {
