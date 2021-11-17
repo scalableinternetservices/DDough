@@ -289,6 +289,11 @@ html, body {
 		@extend %button;
 		width: 80%;
 	}
+
+	.sold-out-button {
+		@extend .buy-now-button;
+		background-color: #666666;
+	}
 }
 
 .item-card-container:hover {

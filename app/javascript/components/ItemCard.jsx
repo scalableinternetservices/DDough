@@ -43,11 +43,27 @@ export default(props) => {
 			</div>
 
 			{(onHover && props.role === "buyer") && (
-				<form className="purchase-form">
-					<label htmlFor="quantity" className="quantity-label">Quantity</label>
-					<input type="number" name="quantity" defaultValue={1} min={1} max={props?.quantity} className="purchase-quantity" />
-					<input type="submit" value="Buy Now" className="buy-now-button" />
-				</form>
+				<>
+					{props.quantity > 0 ?
+						<form className="purchase-form">
+							<label htmlFor="quantity" className="quantity-label">Quantity</label>
+							<input
+								type="number"
+								name="quantity"
+								defaultValue={1}
+								min={1}
+								max={props?.quantity}
+								step={1}
+								className="purchase-quantity"
+							/>
+							<input type="submit" value="Buy Now" className="buy-now-button" />
+						</form>
+					:
+						<div className="purchase-form">
+							<button className="sold-out-button">Sold Out</button>
+						</div>
+					}
+				</>
 			)}
 		</div>
 	);

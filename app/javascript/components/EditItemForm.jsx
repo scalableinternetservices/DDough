@@ -63,7 +63,7 @@ export default (props) => {
             return "Doughnut name is missing";
         } else if (isNaN(doughnut?.price) || doughnut.price < 0.01) {
             return "Doughnut price is missing or invalid"
-        } else if (isNaN(doughnut?.quantity) || doughnut.quantity < 1) {
+        } else if (isNaN(doughnut?.quantity) || doughnut.quantity < 0) {
             return "Doughnut quantity is missing or invalid"
         } else if (typeof doughnut?.description !== "string") {
             return "Doughnut description is invalid";
