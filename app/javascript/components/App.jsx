@@ -71,7 +71,7 @@ export default (props) => {
                 signOut={signOut}
             />
 
-            <Routes role={role} />
+            <Routes role={role} userId={userId} />
 
             <LoginForm
                 visible={isLoginFormVisible}

@@ -56,10 +56,12 @@ export default(props) => {
 
 	const [orders, setOrders] = useState(MOCK_ORDERS);
 
-	useEffect(async () => {
-		const response = await fetch("/api/orders");
-		// console.log(await response.json());
-	}, []);
+	// useEffect(async () => {
+	// 	if (props.userId !== null) {
+	// 		const response = await fetch(`/api/user/${props.userId}/orders`);
+	// 		console.log(await response.json());
+	// 	}
+	// }, [props.userId]);
 
 	return (
 		<div className="order-list-container">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import EditItemForm from "./EditItemForm";
 
+import EditItemForm from "./EditItemForm";
 import OrderList from "./OrderList";
 import StoreDisplay from "./StoreDisplay";
 
@@ -47,10 +47,8 @@ export default(props) => {
 
     const showEditForm = (id) => {
         if (id === null) {
-            console.log("Creating a new doughnut");
             setDoughnutToEdit(null);
         } else {
-            console.log(`Editing doughnut at index ${id}`);
             setDoughnutToEdit(items[id]);
         }
 
@@ -64,7 +62,7 @@ export default(props) => {
     return (
         <>
             <div className="store-container">
-                {props.role == "seller" && (<OrderList />)}
+                {props.role == "seller" && (<OrderList userId={props.userId} />)}
                 <StoreDisplay itemList={items} role={props.role} editHandler={showEditForm} />
             </div>
 

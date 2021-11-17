@@ -25,7 +25,7 @@ export default (props) => {
         }
 
         const options = {
-        	method: "POST",
+        	method: props.doughnut === null ? "POST" : "PUT",
         	body: JSON.stringify(doughnut),
         	headers: {
                 "Authorization": cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null,
@@ -34,7 +34,7 @@ export default (props) => {
         };
 
         try {
-            const response = await fetch("/api/doughnuts", options);
+            const response = await fetch(`/api/doughnuts/${props?.doughnut?.id || ""}`, options);
 
             switch (response.status) {
                 case 200: {

@@ -7,7 +7,7 @@ export default function Routes(props) {
 		<Router>
 			<Switch>
 				<Route path="/">
-					<Home role={props.role} />
+					<Home role={props.role} userId={props.userId} />
 				</Route>
 			</Switch>
 		</Router>

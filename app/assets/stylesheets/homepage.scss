@@ -221,6 +221,7 @@ html, body {
 	.item-card-description {
 		@extend %description;
 		opacity: .75;
+		overflow-wrap: break-word;
 	}
 
 	.action-buttons-wrapper {
