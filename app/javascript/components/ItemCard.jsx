@@ -34,7 +34,7 @@ export default(props) => {
 
 				{(props.role == "seller" && onHover) && (
 					<div className="action-buttons-wrapper">
-						<button className="edit-item-button">
+						<button className="edit-item-button" onClick={() => props.editHandler(props.idx)}>
 							<img src={EditIcon} alt="Edit donut" />
 						</button>
 						<button className="delete-item-button">
@@ -47,7 +47,7 @@ export default(props) => {
 			{(onHover && props.role != null) && (
 				<form className="purchase-form">
 					<label htmlFor="quantity" className="quantity-label">Quantity</label>
-					<input type="number" name="quantity" defaultValue={1} min={1} className="purchase-quantity" />
+					<input type="number" name="quantity" defaultValue={1} min={1} max={props?.quantity} className="purchase-quantity" />
 					<input type="submit" value="Buy Now" className="buy-now-button" />
 				</form>
 			)}

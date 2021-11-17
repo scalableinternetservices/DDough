@@ -8,6 +8,7 @@ export default (props) => {
     const [isLoginFormVisible, setIsLoginFormVisible] = useState(false);
     const [username, setUsername] = useState(null);
     const [role, setRole] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     const [cookies, setCookie, removeCookie] = useCookies(["ddough-auth"]);
 
@@ -42,8 +43,9 @@ export default (props) => {
                 switch (response.status) {
                     case 200: {
                         // Stored token is still valid
-                        setUsername(responseBody.username);
-                        setRole(responseBody.role);
+                        setUsername(responseBody.user.username);
+                        setRole(responseBody.user.role);
+                        setUserId(responseBody.user.id);
                         hideLogin();
                         break;
                     }
@@ -64,6 +66,7 @@ export default (props) => {
             <Navbar
                 role={role}
                 username={username}
+                userId={userId}
                 showLogin={showLogin}
                 signOut={signOut}
             />
@@ -75,6 +78,7 @@ export default (props) => {
                 setRole={setRole}
                 setUsername={setUsername}
                 setCookie={setCookie}
+                setUserId={setUserId}
                 hideLogin={hideLogin}
             />
         </div>

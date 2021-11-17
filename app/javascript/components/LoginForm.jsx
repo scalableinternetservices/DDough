@@ -39,6 +39,7 @@ export default (props) => {
                     props.setCookie("ddough-auth", responseBody.jwt, cookieOptions);
                     props.setUsername(responseBody.user.username);
                     props.setRole(responseBody.user.role);
+                    props.setUserId(responseBody.user.id);
                     props.hideLogin();
                     break;
                 }
@@ -92,11 +93,13 @@ export default (props) => {
                     props.setCookie("ddough-auth", responseBody.jwt, cookieOptions);
                     props.setUsername(responseBody.user.username);
                     props.setRole(responseBody.user.role);
+                    props.setUserId(responseBody.user.id);
                     props.hideLogin();
                     break;
                 }
                 case 409: {
                     setErrorMessage("This username is taken");
+                    break;
                 }
                 case 422: {
                     const responseBody = await response.json();
