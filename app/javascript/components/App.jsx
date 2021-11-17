@@ -68,7 +68,7 @@ export default (props) => {
                 signOut={signOut}
             />
 
-            {Routes}
+            <Routes role={role} />
 
             <LoginForm
                 visible={isLoginFormVisible}
