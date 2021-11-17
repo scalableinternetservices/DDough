@@ -2,25 +2,40 @@ class Api::CartController < ApplicationController
   before_action :get_cart
 
   def index
-    items = CartItem
-      .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
-      .joins(:cart, :doughnut)
-      .where(cart_id: @cart.id)
-    render json: items
+    ### COMPARE FOR LOAD TESTING ###
+    # items = CartItem
+    #   .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
+    #   .joins(:cart, :doughnut)
+    #   .where(cart_id: @cart.id)
+    # render json: items
+    @cart = Cart.includes(cart_items: [:doughnut]).where(user_id: @user.id)
+    render json: @cart, except: [:user_id],
+      include: [:user => {:only => [:username]}, :cart_items => {:only => [:id, :quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
   end
 
   def create
-    @item = CartItem.new
-    @item.doughnut_id = item_params[:doughnut_id]
-    @item.quantity = item_params[:quantity]
-    @item.cart_id = @cart.id
+    @item = CartItem.where(cart_id: @cart.id, doughnut_id: item_params[:doughnut_id])
+
+    if @item.blank?
+      @item = CartItem.new
+      @item.doughnut_id = item_params[:doughnut_id]
+      @item.quantity = item_params[:quantity]
+      @item.cart_id = @cart.id
+    else
+      @item = @item.first
+      @item.quantity += item_params[:quantity]
+    end
 
     if @item.save
-      items = CartItem
-        .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
-        .joins(:cart, :doughnut)
-        .where(cart_id: @cart.id)
-      render json: items, status: :created
+      ### COMPARE FOR LOAD TESTING ###
+      # items = CartItem
+      #   .select('cart_items.*, doughnuts.name, doughnuts.price, doughnuts.description')
+      #   .joins(:cart, :doughnut)
+      #   .where(cart_id: @cart.id)
+      # render json: items, status: :created
+      @cart = Cart.includes(cart_items: [:doughnut]).where(id: @cart.id)
+      render json: @cart, except: [:user_id],
+        include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}], status: :created
     else
       render json: { error: @item.errors.full_messages }, status: :unprocessable_entity
     end
@@ -35,6 +50,20 @@ class Api::CartController < ApplicationController
       head 204
     else
       head :unauthorized
+    end
+  end
+
+  def checkout
+    cart_items = CartItem.where(cart_id: @cart.id)
+    if !cart_items.empty?
+      cart_items_json = cart_items.as_json(only: [:quantity, :doughnut_id])
+      order = Order.create(user: @user)
+      cart_items_json.each {|item| item["order_id"] = order.id}
+      OrderItem.create(cart_items_json)
+      @cart.delete
+      render json: { message: 'cart successfully checked out'}
+    else
+      render json: { error: 'cart is empty'}, status: :conflict
     end
   end
 

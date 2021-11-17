@@ -1,4 +1,4 @@
 class Order < ApplicationRecord
     belongs_to :user
-    belongs_to :doughnut
+    has_many :order_items, dependent: :delete_all
 end
