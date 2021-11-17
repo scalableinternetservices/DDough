@@ -8,8 +8,12 @@ class Api::OrdersController < ApplicationController
     #   .joins(order_items: [:doughnut])
     #   .where(user: @user)
     # render json: orders_json
-    orders = Order.includes(order_items: [:doughnut]).where(user: @user)
-    render json: orders, except: [:user_id],
+    if @user.role == "seller"
+      @orders = Order.includes(order_items: [:doughnut])
+    else
+      @orders = Order.includes(order_items: [:doughnut]).where(user: @user)
+    end
+    render json: @orders, except: [:user_id],
       include: [:user => {:only => [:username]}, :order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
   end
 
