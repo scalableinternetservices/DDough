@@ -21,12 +21,12 @@ export default(props) => {
 				>
 					<p>
 						{item.name}({item.quantity})
-						<span>${(item.price * item.quantity).toPrecision(3)}</span>
+						<span>${(item.price * item.quantity).toFixed(2)}</span>
 					</p>
 				</div>
 			))}
 			<div className="order-total-container">
-				<p>Total:<span>${cost.toPrecision(3)}</span></p>
+				<p>Total:<span>${cost.toFixed(2)}</span></p>
 			</div>
 		</div>
 	);
