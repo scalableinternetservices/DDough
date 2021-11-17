@@ -6,7 +6,7 @@ import OverlayForm from "./OverlayForm";
 export default (props) => {
     const [errorMessage, setErrorMessage] = useState(null);
 
-	const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
+    const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -25,12 +25,12 @@ export default (props) => {
         }
 
         const options = {
-        	method: props.doughnut === null ? "POST" : "PUT",
-        	body: JSON.stringify(doughnut),
-        	headers: {
+            method: props.doughnut === null ? "POST" : "PUT",
+            body: JSON.stringify(doughnut),
+            headers: {
                 "Authorization": cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null,
                 "Content-Type": "application/json"
-        	}
+            }
         };
 
         try {
@@ -53,8 +53,8 @@ export default (props) => {
                 }
             }
         } catch (e) {
-        	setErrorMessage("An error occurred when updating the doughnut");
-        	console.log("Unable to update doughnut. Error:", e);
+            setErrorMessage("An error occurred when updating the doughnut");
+            console.log("Unable to update doughnut. Error:", e);
         }
     }
 
