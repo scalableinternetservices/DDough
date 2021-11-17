@@ -10,7 +10,7 @@ class Api::CartController < ApplicationController
     # render json: items
     @cart = Cart.includes(cart_items: [:doughnut]).where(user_id: @user.id)
     render json: @cart, except: [:user_id],
-      include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
+      include: [:user => {:only => [:username]}, :cart_items => {:only => [:id, :quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
   end
 
   def create
@@ -54,12 +54,10 @@ class Api::CartController < ApplicationController
   end
 
   def checkout
-    order = Order.create(user: @user)
     cart_items = CartItem.where(cart_id: @cart.id)
     if !cart_items.empty?
       cart_items_json = cart_items.as_json(only: [:quantity, :doughnut_id])
-      puts "this is cart_items_json"
-      puts cart_items_json
+      order = Order.create(user: @user)
       cart_items_json.each {|item| item["order_id"] = order.id}
       OrderItem.create(cart_items_json)
       @cart.delete

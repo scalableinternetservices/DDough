@@ -29,6 +29,7 @@ class Api::OrdersController < ApplicationController
       render json: order, except: [:user_id],
         include: [:order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}], status: :created
     else
+      order.delete
       render json: { error: order.errors }, status: :unprocessable_entity
     end
   end
