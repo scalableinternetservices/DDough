@@ -1,67 +1,47 @@
 import React, { useEffect, useState } from "react";
 
 import Order from "./Order";
+import { useCookies } from "react-cookie";
 
 export default(props) => {
-	const MOCK_ORDERS = [
-		{
-			id: 1,
-			user: {
-				username: "Iris"
-			},
-			items: [
-				{
-					id: 2,
-					name: "Signature Ddough",
-					quantity: 3,
-					price: 1.2
-				},
-				{
-					id: 3,
-					name: "Bbough",
-					quantity: 3,
-					price: 1.5
-				}
-			]
-		},
-		{
-			id: 2,
-			user: {
-				username: "Alan"
-			},
-			items: [
-				{
-					id: 3,
-					name: "Bbough",
-					quantity: 5,
-					price: 1.5
-				}
-			],
-		},
-		{
-			id: 3,
-			user: {
-				username: "Andrew"
-			},
-			items: [
-				{
-					id: 1,
-					name: "Classic Donut",
-					quantity: 1,
-					price: 1.0
-				}
-			],
-		}
-	];
+	const [errorMessage, setErrorMessage] = useState(null);
+	const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
+	const [userId] = useState();
+	const [orders, setOrders] = useState([]);
 
-	const [orders, setOrders] = useState(MOCK_ORDERS);
+	useEffect(async () => {
+        await getOrders();
+    }, []);
+	
+    const getOrders = async () => {
+        const options = {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null
+            }
+        };
+	
+        const response = await fetch(`/api/user/${props.userId}/orders`, options);
 
-	// useEffect(async () => {
-	// 	if (props.userId !== null) {
-	// 		const response = await fetch(`/api/user/${props.userId}/orders`);
-	// 		console.log(await response.json());
-	// 	}
-	// }, [props.userId]);
+        switch (response.status) {
+            case 200: {
+                const orders = await response.json();
+				setOrders(orders);
+                break;
+            }
+            case 204: {
+                // There are no orders
+                setOrders([]);
+                break;
+            }
+            default: {
+                console.log("An error occurred!", await response.json());
+                setOrders([]);
+                break;
+            }
+        }
+    }
 
 	return (
 		<div className="order-list-container">
@@ -71,7 +51,7 @@ export default(props) => {
 					key={`order#${order.id}`}
 					orderId={order.id}
 					username={order.user?.username}
-					orderedItems={order.items}
+					orderedItems={order.order_items}
 					timestamp={order.created_at}
 				/>
 			))}

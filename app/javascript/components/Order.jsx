@@ -4,7 +4,7 @@ export default(props) => {
 	let cost = 0.0;
 	for(let i = 0; i < props.orderedItems.length; i++) {
 		let item = props.orderedItems[i];
-		cost += item.price * item.quantity;
+		cost += item.doughnut.price * item.quantity;
 	}
 
 	return (
@@ -17,11 +17,11 @@ export default(props) => {
 			{props.orderedItems.map((item, idx) => (
 				<div 
 					className="order-item-container" 
-					key={`order#${props.orderId}#${item.id}`}
+					key={`order#${props.orderId}#${item.doughnut.id}`}
 				>
 					<p>
-						{item.name}({item.quantity})
-						<span>${(item.price * item.quantity).toFixed(2)}</span>
+						{item.doughnut.name}({item.quantity})
+						<span>${(item.doughnut.price * item.quantity).toFixed(2)}</span>
 					</p>
 				</div>
 			))}
