@@ -3,9 +3,57 @@ import Placeholder1 from "images/item_placeholder_1.JPG";
 import Placeholder2 from "images/item_placeholder_2.JPG";
 import EditIcon from "images/icons/edit_icon.svg";
 import DeleteIcon from "images/icons/delete_icon.svg";
+import { useCookies } from "react-cookie";
+
 
 export default(props) => {
 	const [onHover, setOnHover] = useState(false);
+	const [errorMessage, setErrorMessage] = useState(null);
+	const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
+	const [userId] = useState();
+	
+
+	const buyNowHandler = async (e) => {
+        e.preventDefault();
+        setErrorMessage(null);
+
+        const body = {
+			doughnut_id: props.idx,
+            quantity: parseInt(e.target[0].value)
+		};
+
+        const options = {
+			method: "POST",
+			body: JSON.stringify(body),
+			headers: {
+                "Authorization": cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null,
+                "Content-Type": "application/json"
+            }
+		};
+
+        try {
+            const response = await fetch(`/api/user/${props.userId}/orders`, options);
+
+            switch (response.status) {
+                case 202: {
+					const responseBody = await response.json();
+                    break;
+                }
+                case 500: {
+                    setErrorMessage("A server error occurred");
+                    break;
+                }
+                default: {
+                    const responseBody = await response.json();
+                    setErrorMessage(responseBody?.message);
+                    break;
+                }
+            }
+        } catch (e) {
+			setErrorMessage("An error occurred when using buy now");
+			console.log("Unable to Buy Now. Error:", e);
+		}
+    }
 
 	return (
 		<div 
@@ -44,9 +92,9 @@ export default(props) => {
 			</div>
 
 			{(onHover && props.role === "buyer") && (
-				<>
+				<> 
 					{props.quantity > 0 ?
-						<form className="purchase-form">
+						<form onSubmit={buyNowHandler} className="purchase-form">
 							<label htmlFor="quantity" className="quantity-label">Quantity</label>
 							<input
 								type="number"

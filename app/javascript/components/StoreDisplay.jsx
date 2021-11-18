@@ -17,6 +17,7 @@ export default(props) => (
 						quantity={item.quantity}
 						role={props.role}
 						editHandler={props.editHandler}
+						userId={props.userId}
 					/>
 				))}
 			</div>
