@@ -35,7 +35,7 @@ class Api::CartController < ApplicationController
       # render json: items, status: :created
       @cart = Cart.includes(cart_items: [:doughnut]).where(id: @cart.id)
       render json: @cart, except: [:user_id],
-        include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}], status: :created
+        include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity, :image_url]}]}], status: :created
     else
       render json: { error: @item.errors.full_messages }, status: :unprocessable_entity
     end
