@@ -16,7 +16,8 @@ export default (props) => {
             name: e.target[0].value.trim(),
             price: parseFloat(e.target[1].value),
             quantity: parseInt(e.target[2].value),
-            description: e.target[3].value.trim()
+            description: e.target[3].value.trim(),
+            image_url: e.target[4].value.trim()
         };
 
         const validationErr = validateDoughnut(doughnut);
@@ -67,7 +68,9 @@ export default (props) => {
             return "Doughnut quantity is missing or invalid"
         } else if (typeof doughnut?.description !== "string") {
             return "Doughnut description is invalid";
-        }
+        } else if (typeof doughnut?.image_url !== "string" || doughnut.image_url.length <= 0) {
+            return "Doughnut image url is invalid"
+        } //TODO: include additional verification to see if this is a valid path
 
         return null;
     }
@@ -94,6 +97,9 @@ export default (props) => {
                         <label htmlFor="description" className="input-label">Description</label>
                         <input type="text" name="description" className="input-field"
                             defaultValue={props?.doughnut?.description || ""} />
+                        <label htmlFor="image_url" className="input-label">Image Path</label>
+                        <input type="text" name="image_url" className="input-field"
+                            defaultValue={props?.doughnut?.image_url || ""} />
                         <input type="submit" value="Save Changes" className="login-button cta-button" />
                     </form>
                 </OverlayForm>
