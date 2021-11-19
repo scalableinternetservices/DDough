@@ -35,7 +35,7 @@ class Api::CartController < ApplicationController
       # render json: items, status: :created
       @cart = Cart.includes(cart_items: [:doughnut]).where(id: @cart.id)
       render json: @cart, except: [:user_id],
-        include: [:user => {:only => [:username]}, :cart_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity, :image_url]}]}], status: :created
+        include: [:user => {:only => [:username]}, :cart_items => {:only => [:id, :quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity, :image_url]}]}], status: :created
     else
       render json: { error: @item.errors.full_messages }, status: :unprocessable_entity
     end
@@ -57,11 +57,13 @@ class Api::CartController < ApplicationController
     cart_items = CartItem.where(cart_id: @cart.id)
     if !cart_items.empty?
       cart_items_json = cart_items.as_json(only: [:quantity, :doughnut_id])
-      order = Order.create(user: @user)
-      cart_items_json.each {|item| item["order_id"] = order.id}
-      OrderItem.create(cart_items_json)
-      @cart.delete
-      render json: { message: 'cart successfully checked out'}
+      order = Order.new(user: @user, order_items_attributes: cart_items_json)
+      if order.save
+        @cart.delete
+        render json: { message: 'cart successfully checked out'}
+      else
+        render json: { message: "Items have not been checked out", error: order.errors}, status: :conflict
+      end
     else
       render json: { error: 'cart is empty'}, status: :conflict
     end
@@ -71,6 +73,8 @@ class Api::CartController < ApplicationController
   def get_cart
     if @user.id != params[:user_id].to_i
       render json: { message: 'unauthorized' }, status: :unauthorized
+    elsif @user.role != "buyer"
+      render json: { error: "Not a buyer" }, status: :unauthorized
     else
       @cart = Cart.find_by(user_id: @user.id)
       if !@cart
@@ -79,7 +83,6 @@ class Api::CartController < ApplicationController
     end
   end
 
-  private
   def item_params
     params.permit(:doughnut_id, :quantity)
   end

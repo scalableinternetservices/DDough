@@ -1,5 +1,6 @@
 class Api::DoughnutsController < ApplicationController
   skip_before_action :authorized, only: [:index]
+  before_action :verify_seller, except: [:index, :show]
 
   def index
     doughnuts = Doughnut.all
@@ -10,7 +11,7 @@ class Api::DoughnutsController < ApplicationController
     if doughnut
       render json: doughnut
     else
-      render json: doughnut.errors
+      render json: doughnut.errors, status: 404
     end
   end
 
@@ -19,7 +20,7 @@ class Api::DoughnutsController < ApplicationController
     if doughnut
       render json: doughnut
     else
-      render json: doughnut.errors
+      render json: doughnut.errors, status: :unprocessable_entity
     end
   end
 
@@ -28,7 +29,7 @@ class Api::DoughnutsController < ApplicationController
       doughnut.update(doughnut_params)
       render json: doughnut
     else
-      render json: doughnut.errors
+      render json: doughnut.errors, status: 404
     end
   end
 
@@ -44,6 +45,12 @@ class Api::DoughnutsController < ApplicationController
 
     def doughnut
       @doughnut ||= Doughnut.find(params[:id])
+    end
+
+    def verify_seller
+      if @user.role != "seller"
+        render json: { error: "Not a seller" }, status: :unauthorized
+      end
     end
   
 end
