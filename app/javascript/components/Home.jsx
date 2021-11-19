@@ -63,7 +63,7 @@ export default(props) => {
     return (
         <>
             <div className="store-container">
-                {props.role == "seller" && (<OrderList userId={props.userId} />)}
+                {props.userId != null  && (<OrderList userId={props.userId} />)}
                 <StoreDisplay itemList={items} role={props.role} editHandler={showEditForm} />
             </div>
 
