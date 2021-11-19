@@ -23,6 +23,7 @@ export default (props) => {
     const signOut = () => {
         setUsername(null);
         setRole(null);
+        setUserId(null);
         removeCookie("ddough-auth");
     }
 
