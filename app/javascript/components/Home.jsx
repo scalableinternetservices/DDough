@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import EditItemForm from "./EditItemForm";
 import OrderList from "./OrderList";
+import ShoppingCart from "./ShoppingCart";
 import StoreDisplay from "./StoreDisplay";
 
 export default (props) => {
@@ -59,18 +60,19 @@ export default (props) => {
     setIsEditDoughnutVisible(false);
   }
 
-  return (
-    <>
-      <div className="store-container">
-        {props.userId && (<OrderList userId={props.userId} />)}
-        <StoreDisplay itemList={items} role={props.role} editHandler={showEditForm} userId={props.userId} />
-      </div>
+    return (
+        <>
+            <div className="store-container">
+                {props.userId != null  && (<OrderList userId={props.userId} />)}
+                <StoreDisplay itemList={items} role={props.role} editHandler={showEditForm} userId={props.userId} />
+                <ShoppingCart userId={props.userId} />
+            </div>
 
-      <EditItemForm
-        visible={isEditDoughnutVisible}
-        hideEditForm={hideEditForm}
-        refreshList={getDoughnuts}
-        doughnut={doughnutToEdit} />
-    </>
-  );
+            <EditItemForm
+                visible={isEditDoughnutVisible}
+                hideEditForm={hideEditForm}
+                refreshList={getDoughnuts}
+                doughnut={doughnutToEdit} />
+        </>
+    );
 }
