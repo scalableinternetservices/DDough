@@ -54,6 +54,7 @@ export default (props) => {
             case 200: {
                 setSuccessMessage("Order successfully placed!");
                 props.setCartItems([]);
+                props.refreshDoughnuts();
                 props.refreshOrders();
 
                 setTimeout(() => {

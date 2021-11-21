@@ -158,6 +158,7 @@ export default (props) => {
                         userId={props.userId}
                         cartItems={cartItems}
                         setCartItems={setCartItems}
+                        refreshDoughnuts={getDoughnuts}
                         refreshOrders={getOrders}
                     />
                 }
