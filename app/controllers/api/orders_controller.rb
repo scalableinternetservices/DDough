@@ -18,12 +18,15 @@ class Api::OrdersController < ApplicationController
   end
 
   def create
-    order = Order.create(user: @user)
-    order_item = OrderItem.new
-    order_item.order_id = order.id
-    order_item.doughnut_id = order_params[:doughnut_id]
-    order_item.quantity = order_params[:quantity]
-    if order_item.save
+    if @user.role != "buyer"
+      render json: { error: "Not a buyer" }, status: :unauthorized
+      return
+    end
+    # order = Order.create(user: @user)
+    order = Order.new(user: @user, order_items_attributes: [
+      { doughnut_id: order_params[:doughnut_id], quantity: order_params[:quantity] }
+    ])
+    if order.save
       ### COMPARE FOR LOAD TESTING ###
       # orders_json = Order
       #   .select('orders.*, doughnuts.name, doughnuts.price, doughnuts.description, order_items.quantity')
@@ -33,7 +36,6 @@ class Api::OrdersController < ApplicationController
       render json: order, except: [:user_id],
         include: [:order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}], status: :created
     else
-      order.delete
       render json: { error: order.errors }, status: :unprocessable_entity
     end
   end
