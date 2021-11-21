@@ -10,6 +10,7 @@ export default(props) => (
 					<ItemCard
 						key={item.name}
 						idx={idx}
+						id={item.id}
 						name={item.name}
 						price={item.price}
 						image_url={item.image_url}

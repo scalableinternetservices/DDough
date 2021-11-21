@@ -46,11 +46,11 @@ export default(props) => {
         }
     }
 
-    const showEditForm = (id) => {
-        if (id === null) {
+    const showEditForm = (idx) => {
+        if (idx === null) {
             setDoughnutToEdit(null);
         } else {
-            setDoughnutToEdit(items[id]);
+            setDoughnutToEdit(items[idx]);
         }
 
         setIsEditDoughnutVisible(true);
