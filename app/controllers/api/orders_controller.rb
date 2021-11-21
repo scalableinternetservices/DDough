@@ -14,7 +14,7 @@ class Api::OrdersController < ApplicationController
       @orders = Order.includes(order_items: [:doughnut]).where(user: @user)
     end
     render json: @orders, except: [:user_id],
-      include: [:user => {:only => [:username]}, :order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity, :image_url]}]}]
+      include: [:user => {:only => [:username]}, :order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:id, :name, :price, :description, :quantity, :image_url]}]}]
   end
 
   def create
