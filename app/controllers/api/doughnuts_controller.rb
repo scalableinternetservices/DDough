@@ -16,8 +16,8 @@ class Api::DoughnutsController < ApplicationController
   end
 
   def create
-    doughnut = Doughnut.create(doughnut_params)
-    if doughnut
+    doughnut = Doughnut.new(doughnut_params)
+    if doughnut.save
       render json: doughnut
     else
       render json: doughnut.errors, status: :unprocessable_entity
