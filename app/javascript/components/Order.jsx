@@ -6,8 +6,10 @@ export default (props) => {
   return (
     <div className="order-container">
       <p className="order-title">
-        Order#{props.orderId}{" "}
-        <span>from {props.username}</span>
+        Order #{props.orderId}{" "}
+        {props.role === "seller" &&
+          <span>from {props.username}</span>
+        }
       </p>
       <p className="order-timestamp">{props.created_by}</p>
       {props.orderedItems.map((item, idx) => {

@@ -360,7 +360,7 @@ html, body {
 	font-size: 1.2rem;
 }
 
-.login-error {
+.error-message {
 	background-color: $color-error;
 	color: $color-text-primary;
 	border: none;
@@ -371,6 +371,11 @@ html, body {
 	text-align: center;
 	font-size: 1.5rem;
 	white-space: pre;
+}
+
+.success-message {
+	@extend .error-message;
+	background-color: rgba($color-secondary, .4);
 }
 
 .login-register-toggle {
@@ -508,6 +513,11 @@ html, body {
 		@extend %button;
 		width: 100%;
 		font-size: 2rem;
+	}
+
+	.shopping-cart-purchase-button-disabled {
+		@extend .shopping-cart-purchase-button;
+		background-color: #666666;
 	}
 
 	.shopping-cart-item {
