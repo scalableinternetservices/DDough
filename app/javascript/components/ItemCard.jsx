@@ -41,6 +41,7 @@ export default (props) => {
 						props.setOrders((prevState) => {
 							return [...prevState, responseBody];
 						});
+						setQuantity(responseBody.order_items[0].doughnut.quantity)
 						props.refreshCart();
 						break;
 					}
