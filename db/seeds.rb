@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+10.times do |i|
+    User.create(username: "buyer#{i}", password: "pw#{i}", role: "buyer")
+    User.create(username: "seller#{i}", password: "pw#{i}", role: "seller")
+    Doughnut.create(name: "donut#{i}", price: 10.99, description: "description#{i}", quantity: 100000, image_url: "https://url#{i}")
+end
