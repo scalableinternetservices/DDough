@@ -21,7 +21,10 @@ export default (props) => {
     useEffect(() => {
         if (props.userId) {
             getOrders();
-            getCart();
+
+            if (props.role === "buyer") {
+                getCart();
+            }
         }
     }, [props.userId]);
 
