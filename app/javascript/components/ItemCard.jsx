@@ -10,6 +10,7 @@ export default (props) => {
 	const [onHover, setOnHover] = useState(false);
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
+	// Unnecessary.
 	const [quantity, setQuantity] = useState(props.quantity);
 
 
@@ -37,7 +38,6 @@ export default (props) => {
 				switch (response.status) {
 					case 201: {
 						const responseBody = await response.json();
-						setQuantity(responseBody.order_items[0].doughnut.quantity);
 						props.setOrders((prevState) => {
 							return [...prevState, responseBody];
 						});
@@ -59,6 +59,44 @@ export default (props) => {
 				console.log("Unable to Buy Now. Error:", e);
 			}
 		}else if(e.nativeEvent.submitter.name == "add-to-cart"){
+			const body = {
+				doughnut_id: props.id,
+				quantity: parseInt(e.target[0].value)
+			};
+
+			const options = {
+				method: "POST",
+				body: JSON.stringify(body),
+				headers: {
+					"Authorization": cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null,
+					"Content-Type": "application/json"
+				}
+			};
+
+			try {
+				const response = await fetch(`/api/user/${props.userId}/cart`, options);
+
+				switch (response.status) {
+					case 201: {
+						const responseBody = await response.json();
+						setQuantity(responseBody.order_items[0].doughnut.quantity);
+						await props.refreshCart();
+						break;
+					}
+					case 500: {
+						setErrorMessage("A server error occurred");
+						break;
+					}
+					default: {
+						const responseBody = await response.json();
+						setErrorMessage(responseBody?.message);
+						break;
+					}
+				}
+			} catch (e) {
+				setErrorMessage("An error occurred when using buy now");
+				console.log("Unable to Buy Now. Error:", e);
+			}
 
 		}else{
 			setErrorMessage("An error occurred when submitting form");
