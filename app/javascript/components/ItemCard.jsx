@@ -79,7 +79,6 @@ export default (props) => {
 				switch (response.status) {
 					case 201: {
 						const responseBody = await response.json();
-						setQuantity(responseBody.order_items[0].doughnut.quantity);
 						await props.refreshCart();
 						break;
 					}
