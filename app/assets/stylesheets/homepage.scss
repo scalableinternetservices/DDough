@@ -293,6 +293,8 @@ html, body {
 	.add-to-cart-button {
 		@extend %button;
 		width: 80%;
+		margin-top: 7px;
+		background-color: #D79FAF;
 	}
 
 	.sold-out-button {
