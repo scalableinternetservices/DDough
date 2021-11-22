@@ -290,6 +290,11 @@ html, body {
 		width: 80%;
 	}
 
+	.add-to-cart-button {
+		@extend %button;
+		width: 80%;
+	}
+
 	.sold-out-button {
 		@extend .buy-now-button;
 		background-color: #666666;

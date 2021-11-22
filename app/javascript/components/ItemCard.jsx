@@ -13,50 +13,55 @@ export default (props) => {
 	const [quantity, setQuantity] = useState(props.quantity);
 
 
-	const buyNowHandler = async (e) => {
+	const submitHandler = async (e) => {
 		e.preventDefault();
 		setErrorMessage(null);
+		if(e.nativeEvent.submitter.name == "buy-now"){
+			const body = {
+				doughnut_id: props.id,
+				quantity: parseInt(e.target[0].value)
+			};
 
-		const body = {
-			doughnut_id: props.id,
-			quantity: parseInt(e.target[0].value)
-		};
+			const options = {
+				method: "POST",
+				body: JSON.stringify(body),
+				headers: {
+					"Authorization": cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null,
+					"Content-Type": "application/json"
+				}
+			};
 
-		const options = {
-			method: "POST",
-			body: JSON.stringify(body),
-			headers: {
-				"Authorization": cookies?.["ddough-auth"] !== undefined ? `Bearer ${cookies["ddough-auth"]}` : null,
-				"Content-Type": "application/json"
+			try {
+				const response = await fetch(`/api/user/${props.userId}/orders`, options);
+
+				switch (response.status) {
+					case 201: {
+						const responseBody = await response.json();
+						setQuantity(responseBody.order_items[0].doughnut.quantity);
+						props.setOrders((prevState) => {
+							return [...prevState, responseBody];
+						});
+						props.refreshCart();
+						break;
+					}
+					case 500: {
+						setErrorMessage("A server error occurred");
+						break;
+					}
+					default: {
+						const responseBody = await response.json();
+						setErrorMessage(responseBody?.message);
+						break;
+					}
+				}
+			} catch (e) {
+				setErrorMessage("An error occurred when using buy now");
+				console.log("Unable to Buy Now. Error:", e);
 			}
-		};
+		}else if(e.nativeEvent.submitter.name == "add-to-cart"){
 
-		try {
-			const response = await fetch(`/api/user/${props.userId}/orders`, options);
-
-			switch (response.status) {
-				case 201: {
-					const responseBody = await response.json();
-					setQuantity(responseBody.order_items[0].doughnut.quantity);
-					props.setOrders((prevState) => {
-						return [...prevState, responseBody];
-					});
-					props.refreshCart();
-					break;
-				}
-				case 500: {
-					setErrorMessage("A server error occurred");
-					break;
-				}
-				default: {
-					const responseBody = await response.json();
-					setErrorMessage(responseBody?.message);
-					break;
-				}
-			}
-		} catch (e) {
-			setErrorMessage("An error occurred when using buy now");
-			console.log("Unable to Buy Now. Error:", e);
+		}else{
+			setErrorMessage("An error occurred when submitting form");
 		}
 	}
 
@@ -98,7 +103,7 @@ export default (props) => {
 			{(onHover && props.role === "buyer") && (
 				<>
 					{quantity > 0 ?
-						<form onSubmit={buyNowHandler} className="purchase-form">
+						<form onSubmit={submitHandler} className="purchase-form">
 							<label htmlFor="quantity" className="quantity-label">Quantity</label>
 							<input
 								type="number"
@@ -109,7 +114,8 @@ export default (props) => {
 								step={1}
 								className="purchase-quantity"
 							/>
-							<input type="submit" value="Buy Now" className="buy-now-button" />
+							<input type="submit" name="buy-now" value="Buy Now" className="buy-now-button" />
+							<input type="submit" name="add-to-cart" value="Add To Cart" className="add-to-cart-button" />
 						</form>
 						:
 						<div className="purchase-form">
