@@ -40,7 +40,7 @@ export default (props) => {
             switch (response.status) {
                 case 200: {
                     props.hideEditForm();
-                    props.refreshList();
+                    props.refreshDoughnuts();
                     break;
                 }
                 case 500: {
@@ -81,7 +81,7 @@ export default (props) => {
                 <OverlayForm closeHandler={props.hideEditForm} title={props.doughnut === null
                     ? "Create new doughnut" : `Edit ${props.doughnut.name}`}>
                     {errorMessage &&
-                        <div className="login-error">{errorMessage}</div>
+                        <div className="error-message">{errorMessage}</div>
                     }
 
                     <form onSubmit={submitHandler}>

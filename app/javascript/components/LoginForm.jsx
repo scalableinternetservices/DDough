@@ -135,7 +135,7 @@ export default (props) => {
             {props.visible &&
                 <OverlayForm closeHandler={props.hideLogin} title="Sign in to DDough">
                     {errorMessage &&
-                        <div className="login-error">{errorMessage}</div>
+                        <div className="error-message">{errorMessage}</div>
                     }
 
                     <div className="login-register-toggle">

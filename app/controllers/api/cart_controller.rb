@@ -10,7 +10,7 @@ class Api::CartController < ApplicationController
     # render json: items
     @cart = Cart.includes(cart_items: [:doughnut]).where(user_id: @user.id)
     render json: @cart, except: [:user_id],
-      include: [:user => {:only => [:username]}, :cart_items => {:only => [:id, :quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity]}]}]
+      include: [:user => {:only => [:username]}, :cart_items => {:only => [:id, :quantity, :doughnut], :include => [:doughnut => {:only => [:name, :price, :description, :quantity, :image_url]}]}]
   end
 
   def create

@@ -10,7 +10,7 @@ export default (props) => {
 	const [onHover, setOnHover] = useState(false);
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
-	const [quantity, setQuantity] = useState(props.quantity)
+	const [quantity, setQuantity] = useState(props.quantity);
 
 
 	const buyNowHandler = async (e) => {
@@ -37,7 +37,11 @@ export default (props) => {
 			switch (response.status) {
 				case 201: {
 					const responseBody = await response.json();
-					setQuantity(responseBody.order_items[0].doughnut.quantity)
+					setQuantity(responseBody.order_items[0].doughnut.quantity);
+					props.setOrders((prevState) => {
+						return [...prevState, responseBody];
+					});
+					props.refreshCart();
 					break;
 				}
 				case 500: {
@@ -64,8 +68,8 @@ export default (props) => {
 		>
 			<div className="item-info-wrapper">
 				<img
-					src={props.image_url}
-					alt={`Image of ${props.name}`}
+					src={props.image_url !== null ? props.image_url : (props.idx % 2 == 0 ? Placeholder1 : Placeholder2)}
+					alt={`Image of ${props.name}`} 
 					className="item-card-img"
 				/>
 				<div className={(onHover && props.role === "buyer") ? " blur" : ""}>
