@@ -90,7 +90,6 @@ export default (props) => {
     }
 
     const getCart = async () => {
-        setCartItems([]);
 
         const options = {
             method: "GET",
