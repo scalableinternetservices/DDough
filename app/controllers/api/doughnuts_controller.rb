@@ -4,7 +4,11 @@ class Api::DoughnutsController < ApplicationController
 
   def index
     doughnuts = Doughnut.all
-    render json: doughnuts
+    if params[:start]
+      render json: {"total": Doughnut.count, "doughnuts": Doughnut.where("id > ?", params[:start]).order(:id).limit(params[:limit])}
+    else
+      render json: doughnuts
+    end
   end
 
   def show
