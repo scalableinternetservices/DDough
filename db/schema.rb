@@ -21,14 +21,15 @@ ActiveRecord::Schema.define(version: 2021_11_18_000040) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cart_id"
     t.bigint "doughnut_id"
-    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    # t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    # t.index ["doughnut_id"], name: "index_cart_items_on_doughnut_id"
   end
 
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
-    t.index ["user_id"], name: "index_carts_on_user_id"
+    # t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "doughnuts", force: :cascade do |t|
@@ -47,14 +48,15 @@ ActiveRecord::Schema.define(version: 2021_11_18_000040) do
     t.bigint "doughnut_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_order_items_on_order_id"
+    # t.index ["doughnut_id"], name: "index_order_items_on_doughnut_id"
+    # t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_orders_on_user_id"
+    # t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -67,9 +69,9 @@ ActiveRecord::Schema.define(version: 2021_11_18_000040) do
   end
 
   add_foreign_key "cart_items", "carts", on_delete: :cascade
-  add_foreign_key "cart_items", "doughnuts"
-  add_foreign_key "carts", "users"
-  add_foreign_key "order_items", "doughnuts"
-  add_foreign_key "order_items", "orders"
-  add_foreign_key "orders", "users"
+  # add_foreign_key "cart_items", "doughnuts"
+  # add_foreign_key "carts", "users"
+  # add_foreign_key "order_items", "doughnuts"
+  # add_foreign_key "order_items", "orders"
+  # add_foreign_key "orders", "users"
 end
