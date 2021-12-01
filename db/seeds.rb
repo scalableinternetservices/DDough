@@ -14,10 +14,10 @@ end
 end
 
 100.times do |i|
-user = User.create(username: "buyer#{i}", password: "pw", role: "buyer")
-100.times do |j|
-  Order.create(user: user, order_items_attributes: [
-    { doughnut_id: j, quantity: 10 }
-  ]
-end
+  user = User.create(username: "buyer#{i}", password: "pw", role: "buyer")
+  100.times do |j|
+    Order.create(user: user, order_items_attributes: [
+      { doughnut_id: j, quantity: 10 }
+    ])
+  end
 end
