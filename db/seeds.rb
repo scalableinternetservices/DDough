@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 10.times do |i|
-  User.create(username: "seller#{i}", password: "pw#{i}", role: "seller")
+  User.create(username: "seller#{i}", password: "pw", role: "seller")
 end
 
 100.times do |i|
@@ -14,7 +14,7 @@ end
 end
 
 100.times do |i|
-user = User.create(username: "buyer#{i}", password: "pw#{i}", role: "buyer")
+user = User.create(username: "buyer#{i}", password: "pw", role: "buyer")
 100.times do |j|
   Order.create(user: user, order_items_attributes: [
     { doughnut_id: j, quantity: 10 }
