@@ -43,7 +43,7 @@ export default (props) => {
             }
         };
 
-        const uri = "/api/doughnuts" + (page != null ? `/?start=${(currPage - 1) * ITEMS_PER_PAGE}&limit=${ITEMS_PER_PAGE}` : "");
+        const uri = "/api/doughnuts" + (page != null ? `/?start=${(page - 1) * ITEMS_PER_PAGE}&limit=${ITEMS_PER_PAGE}` : "");
         const response = await fetch(uri, options);
 
         switch (response.status) {
