@@ -13,7 +13,7 @@ class Api::OrdersController < ApplicationController
     # else
     #   @orders = Order.includes(order_items: [:doughnut]).where(user: @user)
     # end
-    @orders = Order.includes(order_items: [:doughnut])
+    @orders = Order.all
     render json: @orders, except: [:user_id],
       include: [:user => {:only => [:username]}, :order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:id, :name, :price, :description, :quantity, :image_url]}]}]
   end
