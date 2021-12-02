@@ -1,5 +1,5 @@
 class Api::OrdersController < ApplicationController
-  before_action :verify_permissions
+  skip_before_action :authorized
 
   def index
     ### COMPARE FOR LOAD TESTING ###
@@ -8,11 +8,12 @@ class Api::OrdersController < ApplicationController
     #   .joins(order_items: [:doughnut])
     #   .where(user: @user)
     # render json: orders_json
-    if @user.role == "seller"
-      @orders = Order.includes(order_items: [:doughnut])
-    else
-      @orders = Order.includes(order_items: [:doughnut]).where(user: @user)
-    end
+    # if @user.role == "seller"
+    #   @orders = Order.includes(order_items: [:doughnut])
+    # else
+    #   @orders = Order.includes(order_items: [:doughnut]).where(user: @user)
+    # end
+    @orders = Order.includes(order_items: [:doughnut])
     render json: @orders, except: [:user_id],
       include: [:user => {:only => [:username]}, :order_items => {:only => [:quantity, :doughnut], :include => [:doughnut => {:only => [:id, :name, :price, :description, :quantity, :image_url]}]}]
   end
