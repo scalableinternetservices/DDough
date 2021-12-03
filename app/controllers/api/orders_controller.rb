@@ -9,7 +9,12 @@ class Api::OrdersController < ApplicationController
     #   .where(user: @user)
     # render json: orders_json
     if @user.role == "seller"
-      @orders = Order.all
+      if params[:start]
+        @orders = Order.where("id > ?", params[:start]).order(:id).limit(params[:limit])
+      else
+        @orders = Order.all
+      end
+      
     else
       @orders = Order.includes(order_items: [:doughnut]).where(user: @user)
     end
