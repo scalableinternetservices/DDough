@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 2021_11_18_000040) do
     t.bigint "cart_id"
     t.bigint "doughnut_id"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
-    t.index ["doughnut_id"], name: "index_cart_items_on_doughnut_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -48,7 +47,6 @@ ActiveRecord::Schema.define(version: 2021_11_18_000040) do
     t.bigint "doughnut_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["doughnut_id"], name: "index_order_items_on_doughnut_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
