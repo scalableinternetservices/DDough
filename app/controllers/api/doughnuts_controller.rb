@@ -3,10 +3,11 @@ class Api::DoughnutsController < ApplicationController
   before_action :verify_seller, except: [:index, :show]
 
   def index
-    doughnuts = Doughnut.all
     if params[:start]
-      render json: {"total": Doughnut.count, "doughnuts": Doughnut.where("id > ?", params[:start]).order(:id).limit(params[:limit])}
+      doughnuts = Doughnut.where("id > ?", params[:start]).order(:id).limit(params[:limit])
+      render json: {"total": Doughnut.count, "doughnuts": doughnuts}
     else
+      doughnuts = Doughnut.all
       render json: doughnuts
     end
   end
