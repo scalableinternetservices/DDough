@@ -111,7 +111,7 @@ export default (props) => {
 		>
 			<div className="item-info-wrapper">
 				<img
-					src={props.image_url !== null ? props.image_url : (props.idx % 2 == 0 ? Placeholder1 : Placeholder2)}
+					src={props.image_url ? props.image_url : (props.idx % 2 == 0 ? Placeholder1 : Placeholder2)}
 					alt={`Image of ${props.name}`} 
 					className="item-card-img"
 				/>

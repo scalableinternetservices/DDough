@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 
 import OverlayForm from "./OverlayForm";
+import Placeholder from "images/item_placeholder_1.JPG";
 
 export default (props) => {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -40,7 +41,16 @@ export default (props) => {
             switch (response.status) {
                 case 200: {
                     props.hideEditForm();
-                    props.refreshDoughnuts();
+                    if (props.doughnut == null) {
+                        const pageMax = Math.ceil(props.doughnutTotal / props.itemsPerPage);
+                        const pageNum = props.doughnutTotal % props.itemsPerPage == 0
+                            ? pageMax + 1 : pageMax;
+                        if (pageNum != props.currPage) {
+                            props.pageHandler(pageNum);
+                            break;
+                        }
+                    }
+                    props.refreshDoughnuts(props.currPage);
                     break;
                 }
                 case 500: {
@@ -68,9 +78,12 @@ export default (props) => {
             return "Doughnut quantity is missing or invalid"
         } else if (typeof doughnut?.description !== "string") {
             return "Doughnut description is invalid";
-        } else if (typeof doughnut?.image_url !== "string" || doughnut.image_url.length <= 0) {
+        } else if (typeof doughnut?.image_url !== "string") {
             return "Doughnut image url is invalid"
-        } //TODO: include additional verification to see if this is a valid path
+        } else if (doughnut.image_url.length <= 0) {
+            doughnut.image_url = Placeholder;
+        }
+        //TODO: include additional verification to see if this is a valid path
 
         return null;
     }

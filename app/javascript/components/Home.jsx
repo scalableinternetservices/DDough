@@ -11,12 +11,16 @@ export default (props) => {
     const [items, setItems] = useState([]);
     const [orders, setOrders] = useState([]);
     const [cartItems, setCartItems] = useState([]);
+    const [doughnutTotal, setDoughnutTotal] = useState(0);
+    const [currPage, setCurrPage] = useState(1);
 
     const [cookies, _setCookie, _removeCookie] = useCookies(["ddough-auth"]);
 
+    const ITEMS_PER_PAGE = 8;
+
     useEffect(() => {
-        getDoughnuts();
-    }, []);
+        getDoughnuts(currPage);
+    }, [currPage]);
 
     useEffect(() => {
         if (props.userId) {
@@ -28,7 +32,7 @@ export default (props) => {
         }
     }, [props.userId]);
 
-    const getDoughnuts = async () => {
+    const getDoughnuts = async (page=null) => {
         setItems([]);
 
         const options = {
@@ -39,11 +43,22 @@ export default (props) => {
             }
         };
 
-        const response = await fetch("/api/doughnuts", options);
+        const uri = "/api/doughnuts" + (page != null ? `/?start=${(page - 1) * ITEMS_PER_PAGE}&limit=${ITEMS_PER_PAGE}` : "");
+        const response = await fetch(uri, options);
 
         switch (response.status) {
             case 200: {
-                const doughnuts = await response.json();
+                const doughnut_info = await response.json();
+                
+                let doughnuts = null;
+                if (page != null) {
+                	doughnuts = doughnut_info.doughnuts;
+                	setDoughnutTotal(doughnut_info.total);
+                }
+                else {
+                	doughnuts = doughnut_info;
+                }
+
                 setItems(doughnuts.sort((a, b) => a.id - b.id));
                 break;
             }
@@ -153,6 +168,9 @@ export default (props) => {
                     userId={props.userId}
                     setOrders={setOrders}
                     refreshCart={getCart}
+                    pageMax={Math.ceil(doughnutTotal / ITEMS_PER_PAGE)}
+                	currPage={currPage}
+                	pageNavHandler={setCurrPage}
                 />
 
                 {props.role === "buyer" &&
@@ -171,6 +189,10 @@ export default (props) => {
                 hideEditForm={hideEditForm}
                 refreshDoughnuts={getDoughnuts}
                 doughnut={doughnutToEdit}
+                doughnutTotal={doughnutTotal}
+                itemsPerPage={ITEMS_PER_PAGE}
+                currPage={currPage}
+                pageHandler={setCurrPage}
             />
         </>
     );

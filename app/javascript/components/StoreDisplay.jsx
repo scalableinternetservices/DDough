@@ -29,6 +29,23 @@ export default(props) => (
 					<span>+</span>
 				</button>
 			)}
+			<div className="page-nav-container">
+				<button 
+					className="page-nav-button" 
+					onClick={() => props.pageNavHandler(props.currPage - 1)}
+					disabled={props.currPage < 2}
+				>
+					<span>&lt;</span>
+				</button>
+				<span className="page-number">{props.currPage}</span>
+				<button 
+					className="page-nav-button" 
+					onClick={() => props.pageNavHandler(props.currPage + 1)}
+					disabled={props.currPage >= props.pageMax}
+				>
+					<span>&gt;</span>
+				</button>
+			</div>
 		</div>
 	</div>
 );
