@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2021_11_18_000040) do
     t.integer "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["username"]
+    # t.index ["username"]
   end
 
   add_foreign_key "cart_items", "carts", on_delete: :cascade
