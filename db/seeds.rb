@@ -15,7 +15,7 @@ end
 
 10000.times do |i|
   user = User.create(username: "buyer#{i}", password: "pw", role: "buyer")
-  5.times do |j|
+  2.times do |j|
     Order.create(user: user, order_items_attributes: [
       { doughnut_id: j, quantity: 1 },
       { doughnut_id: j+1, quantity: 1 }
