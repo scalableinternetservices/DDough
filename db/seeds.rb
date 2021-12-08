@@ -13,7 +13,7 @@ end
   Doughnut.create(name: "donut#{i}", price: 10.99, description: "description#{i}", quantity: 1000000, image_url: "https://url#{i}")
 end
 
-10000.times do |i|
+1000.times do |i|
   user = User.create(username: "buyer#{i}", password: "pw", role: "buyer")
   10.times do |j|
     Order.create(user: user, order_items_attributes: [
